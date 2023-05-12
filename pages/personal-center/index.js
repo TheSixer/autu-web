@@ -253,7 +253,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
               <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify} />} onClick={() => setShowFound(true)}>
                 充值
               </Button>
-              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled variant="outlined" size="large" startIcon={<RechargeIcon disabled={!completeVerify} />} onClick={() => router.push('/personal-center/transfer')}>
+              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled variant="outlined" size="large" startIcon={<RechargeIcon disabled />} onClick={() => router.push('/personal-center/transfer')}>
                 转账
               </Button>
               <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<WithdrawalIcon disabled={!completeVerify} />} onClick={() => setWithdraw(true)}>

@@ -97,9 +97,9 @@ export default function CustomizedSteppers({ next }) {
               </Select>
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="Phone"
+                placeholder="*联系方式"
                 value={phone}
-                inputProps={{ 'aria-label': 'Phone' }}
+                inputProps={{ 'aria-label': '*联系方式' }}
                 onChange={e => setPhone(e.target.value)}
               />
             </Paper>

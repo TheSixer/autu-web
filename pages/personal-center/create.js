@@ -33,11 +33,12 @@ const HomePage = () => {
     }).then(({code}) => {
       if (!code) {
         toast.success('账户创建成功', {
-          autoClose: 1500,
-          onClose: () => router.push('/personal-center')
+          autoClose: 1000,
+          onClose: () => router.push('/personal-center/accounts')
         });
+      } else { 
+        setLoading(false);
       }
-      setLoading(false);
     });
   });
 
@@ -88,25 +89,10 @@ const HomePage = () => {
                   onChange={(e) => setLeverageInCents(e.target.value)}
                 >
                   <MenuItem value={100}>1 : 1</MenuItem>
-                  <MenuItem value={150}>1 : 1.5</MenuItem>
-                  <MenuItem value={200}>1 : 2</MenuItem>
-                  <MenuItem value={300}>1 : 3</MenuItem>
-                  <MenuItem value={500}>1 : 5</MenuItem>
                   <MenuItem value={1000}>1 : 10</MenuItem>
-                  <MenuItem value={1500}>1 : 15</MenuItem>
-                  <MenuItem value={2000}>1 : 20</MenuItem>
-                  <MenuItem value={3000}>1 : 30</MenuItem>
-                  <MenuItem value={3300}>1 : 33</MenuItem>
                   <MenuItem value={5000}>1 : 50</MenuItem>
-                  <MenuItem value={6600}>1 : 66</MenuItem>
-                  <MenuItem value={7500}>1 : 75</MenuItem>
                   <MenuItem value={10000}>1 : 100</MenuItem>
-                  <MenuItem value={12500}>1 : 125</MenuItem>
-                  <MenuItem value={15000}>1 : 150</MenuItem>
-                  <MenuItem value={17500}>1 : 175</MenuItem>
                   <MenuItem value={20000}>1 : 200</MenuItem>
-                  <MenuItem value={30000}>1 : 300</MenuItem>
-                  <MenuItem value={40000}>1 : 400</MenuItem>
                   <MenuItem value={50000}>1 : 500</MenuItem>
                 </Select>
               </FormControl>
@@ -120,7 +106,7 @@ const HomePage = () => {
                   onChange={(e) => setDepositCurrency(e.target.value)}
                 >
                   <MenuItem value={'USD'}>USD</MenuItem>
-                  <MenuItem value={'RMB'}>RMB</MenuItem>
+                  <MenuItem value={'CNH'}>CNH</MenuItem>
                   {/* <MenuItem value={'AUD'}>AUD</MenuItem>
                   <MenuItem value={'CHF'}>CHF</MenuItem>
                   <MenuItem value={'EUR'}>EUR</MenuItem>

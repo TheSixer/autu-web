@@ -238,8 +238,8 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
         fetchList()
         onUpdate();
         setOpen(false);
-        setLoading(false);
       }
+      setLoading(false);
     });
   }
 
@@ -253,12 +253,12 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
       login: currentRow.login,
       amount: amount * 100,
     }).then(({code}) => {
+      setLoading(false);
       if (!code) {
         toast.success('转出成功');
         fetchList()
         onUpdate();
         setOpen(false);
-        setLoading(false);
       }
     });
   }
@@ -300,8 +300,8 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
                       {/* <Button className='bg-blue-500 mr-2' size="small" variant="contained">修改密码</Button> */}
                       <Button className='bg-yellow-500' size="small" disabled={row.status !== 'FULL_ACCESS'} variant="contained" color="warning" onClick={() => handleClickOpen(row, 0)}>入金</Button>
                       {
-                        row.balance >= 10000 ? 
-                        <Button className='ml-2' size="small" disabled={row.status !== 'FULL_ACCESS' || row.balance < 10000} variant="outlined" color="info" onClick={() => handleClickOpen(row, 1)}>出金</Button>
+                        row.balance ? 
+                        <Button className='ml-2' size="small" disabled={row.status !== 'FULL_ACCESS'} variant="outlined" color="info" onClick={() => handleClickOpen(row, 1)}>出金</Button>
                         : null
                       }
                     </TableCell>
@@ -354,13 +354,11 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
         <DialogContent>
           <Stack sx={{ width: 320, p: 2 }} spacing={2}>
             <TextField
-              error={(parseInt(amount || 0) % 100) !== 0}
               label={`${type ? '转出' : '转入'}金额（${currentRow?.depositCurrency}）`}
               value={amount}
-              helperText={(parseInt(amount || 0) % 100) !== 0 ? '请输入100的倍数' : ''}
               onChange={e => setAmount(e.target.value)}
               InputProps={{
-                inputComponent: NumericFormatUSD,
+                inputComponent: currentRow?.depositCurrency === 'CNH' ? NumericFormatRMB : NumericFormatUSD,
               }}
               fullWidth
             />
@@ -383,7 +381,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
             size="small"
             onClick={handleConfirm}
             loading={loading}
-            disabled={loading || !amount || (parseInt(amount || 0) % 100) !== 0}
+            disabled={loading || !amount}
           >
             <span>确认{type ? '转出' : '转入'}</span>
           </LoadingButton>

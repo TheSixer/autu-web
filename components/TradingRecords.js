@@ -33,19 +33,7 @@ const headCells = [
     id: 'amount',
     numeric: true,
     disablePadding: false,
-    label: '充值金额（RMB）',
-  },
-  {
-    id: 'usdAmount',
-    numeric: true,
-    disablePadding: false,
-    label: '充值金额（USD）',
-  },
-  {
-    id: 'usdRate',
-    numeric: true,
-    disablePadding: false,
-    label: '汇率',
+    label: '充值金额',
   },
   {
     id: 'channel',
@@ -207,10 +195,8 @@ export default function EnhancedTable() {
                     // sx={{ cursor: 'pointer' }}
                   >
                     <TableCell align="left">{row.orderCode}</TableCell>
-                    <TableCell align="left">¥{row.amount / 100}</TableCell>
-                    <TableCell align="left">≈ ${Math.floor(row.usdAmount * 100) / 10000}</TableCell>
-                    <TableCell align="left">{row.usdRate}</TableCell>
-                    <TableCell align="left">{row.channel}</TableCell>
+                    <TableCell align="left">{row.type === 'thirdPay' ? '¥' : '$'}{(Math.floor(row.amount * 100) / 10000) }</TableCell>
+                    <TableCell align="left">{row.type === 'thirdPay' ? '第三方支付' : row.type === 'digitalCurrency' ? '数字货币' : '国际电汇'}</TableCell>
                     <TableCell align="left">{row.createTime}</TableCell>
                     <TableCell align="left">{row.auditTime || '-'}</TableCell>
                     <TableCell align="right">

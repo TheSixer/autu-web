@@ -14,6 +14,7 @@ const LoginForm = ({ token }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState('');
   const [password, setPassward] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -22,6 +23,7 @@ const LoginForm = ({ token }) => {
   const {
     run: handleSubmit,
   } = useThrottleFn(() => {
+    setLoading(true);
     fetch('/api/auth/callback/credentials', {
       method: 'post',
       headers: {
@@ -34,6 +36,7 @@ const LoginForm = ({ token }) => {
       })
     }).then(res => {
       window.location.href=res.url;
+      // setLoading(false);
     });
   });
 
@@ -89,7 +92,7 @@ const LoginForm = ({ token }) => {
               <div className="text-right">
                 <Link className="text-sm text-blue-600" href="/forget">忘记密码？</Link>
               </div>
-              <Button disabled={!userName || !password} onClick={handleSubmit} className="w-full py-2 bg-blue-900" sx={{ mt: 4, borderRadius: '20px' }} variant="contained">登录</Button>
+              <Button disabled={!userName || !password || loading} onClick={handleSubmit} className="w-full py-2 bg-blue-900" sx={{ mt: 4, borderRadius: '20px' }} variant="contained">登录</Button>
               <p className="text-sm text-blue-600 m-6 text-center"><Link href="/register">注册一个新账户</Link></p>
             </form>
           </CardContent>

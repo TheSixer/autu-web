@@ -106,7 +106,7 @@ export default function CustomizedSteppers() {
               sx={{ py: 1.5 }}
               variant="contained"
               loading={loading}
-              disabled={!annualIncome || !netWorth || !sourceOfWealth || !expectNext12Month}
+              disabled={annualIncome === '' || netWorth === '' || !sourceOfWealth || expectNext12Month === ''}
               onClick={handleSubmit}
             >
               完成

@@ -51,6 +51,8 @@ const HomePage = ({userInfo, policy}) => {
   const [loading, setLoading] = useState(false);
   const [frontPhotoUrl, setFrontPhotoUrl] = useState('');
   const [backendPhotoUrl, setBackendPhotoUrl] = useState('');
+  const [frontPhoto, setFrontPhoto] = useState('');
+  const [backendPhoto, setBackendPhoto] = useState('');
   const [userName, setUserName] = useState('');
   const router = useRouter();
   
@@ -89,6 +91,7 @@ const HomePage = ({userInfo, policy}) => {
       method: 'POST',
       body: formdata
     }).then(res => {
+      !id ? setFrontPhotoUrl(`${params.dir}/${file.name}`) : setBackendPhotoUrl(`${params.dir}/${file.name}`);
       fetchImg(`${params.dir}/${file.name}`, id);
     })
   }
@@ -96,7 +99,7 @@ const HomePage = ({userInfo, policy}) => {
   const fetchImg = async (url, id) => {
     const { code, data } = await getImgUrl(url);
     if (!code) {
-      !id ? setFrontPhotoUrl(data) : setBackendPhotoUrl(data);
+      !id ? setFrontPhoto(data) : setBackendPhoto(data);
     }
   }
 
@@ -115,17 +118,17 @@ const HomePage = ({userInfo, policy}) => {
             <Box className="p-4">
               <h4 className='text-black font-semibold'>身份信息&nbsp;&nbsp;
               <Chip size='small' label={idCardInfo?.auditStatus === 0 ? '审核中' : idCardInfo?.auditStatus === 1 ? '审核已通过' : idCardInfo?.auditStatus === 2 ? '审核未通过' : '未上传'} color="success" variant="outlined" /></h4>
-              <p className='mt-2 mb-4 text-sm text-gray-500'>需要您提供本人手持身份证的正反面照片</p>
+              <p className='mt-2 mb-4 text-sm text-gray-500'>需要您提供本人身份证的正反面照片</p>
 
               <IconButton className='w-full h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
                 <input hidden accept="image/*" type="file" onChange={e => onChange(e.target.files[0], 0)} />
-                {!frontPhotoUrl && <PhotoCamera fontSize='large' />}
-                {frontPhotoUrl && <img className='w-full h-full' src={frontPhotoUrl} />}
+                {!frontPhoto && <PhotoCamera fontSize='large' />}
+                {frontPhoto && <img className='w-full h-full' src={frontPhoto} />}
               </IconButton>
               <IconButton className='w-full h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{my: 4, borderRadius: '10px'}} component="label">
                 <input hidden accept="image/*" type="file" onChange={e => onChange(e.target.files[0], 1)} />
-                {!backendPhotoUrl && <PhotoCamera fontSize='large' />}
-                {backendPhotoUrl && <img className='w-full h-full' src={backendPhotoUrl} />}
+                {!backendPhoto && <PhotoCamera fontSize='large' />}
+                {backendPhoto && <img className='w-full h-full' src={backendPhoto} />}
               </IconButton>
 
               <TextField
