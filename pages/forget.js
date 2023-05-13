@@ -19,7 +19,7 @@ const LoginPage = (props) => (
   <div>
     <Preloader />
 
-    <Layout pageTitle="Autu | Home Page">
+    <Layout pageTitle="Autu | Securities">
       <Header
         btnClass="main-nav__btn"
         extraClassName="site-header-one__fixed-top"

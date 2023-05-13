@@ -10,12 +10,52 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useThrottleFn } from 'ahooks';
 import { saveWorkInfo } from '@/services';
+import { useIntl } from "react-intl";
 
 export default function CustomizedSteppers({ next }) {
   const [loading, setLoading] = useState(false);
   const [employmentStatus, setEmploymentStatus] = useState('');
   const [industry, setIndustry] = useState('');
   const [otherIndustry, setOtherIndustry] = useState('');
+  const intl = useIntl();
+
+  const nextTxt = intl.formatMessage({ id: "imorove.step.next" });
+  const situationTxt = intl.formatMessage({ id: "imorove.step.careerInfo.situation" });
+  const onTheJobTxt = intl.formatMessage({ id: "imorove.step.careerInfo.onTheJob" });
+  const freelanceTxt = intl.formatMessage({ id: "imorove.step.careerInfo.freelance" });
+  const retireTxt = intl.formatMessage({ id: "imorove.step.careerInfo.retire" });
+  const studentTxt = intl.formatMessage({ id: "imorove.step.careerInfo.student" });
+  const noOccupationTxt = intl.formatMessage({ id: "imorove.step.careerInfo.noOccupation" });
+  const industryTxt = intl.formatMessage({ id: "imorove.step.careerInfo.industry" });
+
+  const accountingTxt = intl.formatMessage({ id: "imorove.step.careerInfo.accounting" });
+  const administrationTxt = intl.formatMessage({ id: "imorove.step.careerInfo.administration" });
+  const agricultureTxt = intl.formatMessage({ id: "imorove.step.careerInfo.agriculture" });
+  const companyTxt = intl.formatMessage({ id: "imorove.step.careerInfo.company" });
+  const mediumTxt = intl.formatMessage({ id: "imorove.step.careerInfo.medium" });
+  const nationalDefenseTxt = intl.formatMessage({ id: "imorove.step.careerInfo.nationalDefense" });
+  const educationTxt = intl.formatMessage({ id: "imorove.step.careerInfo.education" });
+  const emergencyServicesTxt = intl.formatMessage({ id: "imorove.step.careerInfo.emergencyServices" });
+  const engineeringTxt = intl.formatMessage({ id: "imorove.step.careerInfo.engineering" });
+  const financialTxt = intl.formatMessage({ id: "imorove.step.careerInfo.financial" });
+  const governmentalTxt = intl.formatMessage({ id: "imorove.step.careerInfo.governmental" });
+  const lawTxt = intl.formatMessage({ id: "imorove.step.careerInfo.law" });
+  const importsAndExportsTxt = intl.formatMessage({ id: "imorove.step.careerInfo.imports&exports" });
+  const cateringTxt = intl.formatMessage({ id: "imorove.step.careerInfo.catering" });
+  const manufactureTxt = intl.formatMessage({ id: "imorove.step.careerInfo.manufacture" });
+  const adTxt = intl.formatMessage({ id: "imorove.step.careerInfo.industry" });
+  const noGovernmentalTxt = intl.formatMessage({ id: "imorove.step.careerInfo.noGovernmental" });
+  const charitableTxt = intl.formatMessage({ id: "imorove.step.careerInfo.charitable" });
+  const pharmacyTxt = intl.formatMessage({ id: "imorove.step.careerInfo.pharmacy" });
+  const preciousMetalTxt = intl.formatMessage({ id: "imorove.step.careerInfo.preciousMetal" });
+  const propertyTxt = intl.formatMessage({ id: "imorove.step.careerInfo.property" });
+  const retailTxt = intl.formatMessage({ id: "imorove.step.careerInfo.retail" });
+  const socialTxt = intl.formatMessage({ id: "imorove.step.careerInfo.social" });
+  const techTxt = intl.formatMessage({ id: "imorove.step.careerInfo.tech" });
+  const telecomTxt = intl.formatMessage({ id: "imorove.step.careerInfo.telecom" });
+  const transportTxt = intl.formatMessage({ id: "imorove.step.careerInfo.transport" });
+  const otherTxt = intl.formatMessage({ id: "imorove.step.careerInfo.other" });
+
   
   const {
     run: handleNext,
@@ -37,63 +77,63 @@ export default function CustomizedSteppers({ next }) {
         <CardContent>
           <Stack direction="column" spacing={2} className="p-4">
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*职业情况</InputLabel>
+              <InputLabel id="demo-simple-select-label">{situationTxt}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={employmentStatus}
-                label="*职业情况"
+                label={situationTxt}
                 onChange={e => setEmploymentStatus(e.target.value)}
               >
-                <MenuItem value={'employ'}>在职</MenuItem>
-                <MenuItem value={'self-employed'}>自由职业</MenuItem>
-                <MenuItem value={'retired'}>退休</MenuItem>
-                <MenuItem value={'student'}>学生</MenuItem>
-                <MenuItem value={'unemploy'}>无职业</MenuItem>
+                <MenuItem value={'employ'}>{onTheJobTxt}</MenuItem>
+                <MenuItem value={'self-employed'}>{freelanceTxt}</MenuItem>
+                <MenuItem value={'retired'}>{retireTxt}</MenuItem>
+                <MenuItem value={'student'}>{studentTxt}</MenuItem>
+                <MenuItem value={'unemploy'}>{noOccupationTxt}</MenuItem>
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*行业</InputLabel>
+              <InputLabel id="demo-simple-select-label">{industryTxt}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={industry}
-                label="*行业"
+                label={industryTxt}
                 onChange={e => setIndustry(e.target.value)}
               >
-                <MenuItem value="会计">会计</MenuItem>
-                <MenuItem value="行政/秘书">行政/秘书</MenuItem>
-                <MenuItem value="农业">农业</MenuItem>
-                <MenuItem value="公司服务">公司服务</MenuItem>
-                <MenuItem value="创意/媒体">创意/媒体</MenuItem>
-                <MenuItem value="国防/军事">国防/军事</MenuItem>
-                <MenuItem value="教育">教育</MenuItem>
-                <MenuItem value="紧急服务">紧急服务</MenuItem>
-                <MenuItem value="工程">工程</MenuItem>
-                <MenuItem value="金融服务">金融服务</MenuItem>
-                <MenuItem value="政府/公务员">政府/公务员</MenuItem>
-                <MenuItem value="法律">法律</MenuItem>
-                <MenuItem value="出口/进口">出口/进口</MenuItem>
-                <MenuItem value="餐饮/款待">餐饮/款待</MenuItem>
-                <MenuItem value="制造">制造</MenuItem>
-                <MenuItem value="市场营销/公关/广告">市场营销/公关/广告</MenuItem>
-                <MenuItem value="非政府组织">非政府组织</MenuItem>
-                <MenuItem value="非营利/慈善">非营利/慈善</MenuItem>
-                <MenuItem value="制药">制药</MenuItem>
-                <MenuItem value="贵金属/宝石">贵金属/宝石</MenuItem>
-                <MenuItem value="物业/建筑/贸易">物业/建筑/贸易</MenuItem>
-                <MenuItem value="零售">零售</MenuItem>
-                <MenuItem value="社会关怀/服务/健康/医疗">社会关怀/服务/健康/医疗</MenuItem>
-                <MenuItem value="技术">技术</MenuItem>
-                <MenuItem value="电信">电信</MenuItem>
-                <MenuItem value="运输">运输</MenuItem>
-                <MenuItem value="0">其他</MenuItem>
+                <MenuItem value={accountingTxt}>{accountingTxt}</MenuItem>
+                <MenuItem value={administrationTxt}>{administrationTxt}</MenuItem>
+                <MenuItem value={agricultureTxt}>{agricultureTxt}</MenuItem>
+                <MenuItem value={companyTxt}>{companyTxt}</MenuItem>
+                <MenuItem value={mediumTxt}>{mediumTxt}</MenuItem>
+                <MenuItem value={nationalDefenseTxt}>{nationalDefenseTxt}</MenuItem>
+                <MenuItem value={educationTxt}>{educationTxt}</MenuItem>
+                <MenuItem value={emergencyServicesTxt}>{emergencyServicesTxt}</MenuItem>
+                <MenuItem value={engineeringTxt}>{engineeringTxt}</MenuItem>
+                <MenuItem value={financialTxt}>{financialTxt}</MenuItem>
+                <MenuItem value={governmentalTxt}>{governmentalTxt}</MenuItem>
+                <MenuItem value={lawTxt}>{lawTxt}</MenuItem>
+                <MenuItem value={importsAndExportsTxt}>{importsAndExportsTxt}</MenuItem>
+                <MenuItem value={cateringTxt}>{cateringTxt}</MenuItem>
+                <MenuItem value={manufactureTxt}>{manufactureTxt}</MenuItem>
+                <MenuItem value={adTxt}>{adTxt}</MenuItem>
+                <MenuItem value={noGovernmentalTxt}>{noGovernmentalTxt}</MenuItem>
+                <MenuItem value={charitableTxt}>{charitableTxt}</MenuItem>
+                <MenuItem value={pharmacyTxt}>{pharmacyTxt}</MenuItem>
+                <MenuItem value={preciousMetalTxt}>{preciousMetalTxt}</MenuItem>
+                <MenuItem value={propertyTxt}>{propertyTxt}</MenuItem>
+                <MenuItem value={retailTxt}>{retailTxt}</MenuItem>
+                <MenuItem value={socialTxt}>{socialTxt}</MenuItem>
+                <MenuItem value={techTxt}>{techTxt}</MenuItem>
+                <MenuItem value={telecomTxt}>{telecomTxt}</MenuItem>
+                <MenuItem value={transportTxt}>{transportTxt}</MenuItem>
+                <MenuItem value="0">{otherTxt}</MenuItem>
               </Select>
             </FormControl>
             {
               industry == '0' ? (
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" label="*其他" variant="outlined" onChange={e => setOtherIndustry(e.target.value)} />
+                  <TextField id="outlined-basic" label={"*其他"} variant="outlined" onChange={e => setOtherIndustry(e.target.value)} />
                 </FormControl>
               ) : null
             }
@@ -105,7 +145,7 @@ export default function CustomizedSteppers({ next }) {
               disabled={!employmentStatus || (industry == '0' && !otherIndustry) || (industry != '0' && !industry)}
               onClick={handleNext}
             >
-              下一步
+              {nextTxt}
             </Button>
 
 

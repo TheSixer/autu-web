@@ -186,7 +186,7 @@ const HomePage = ({ rate }) => {
         if (channel === '1012') {
           window.open(data, '_blank ');
         } else {
-          toast.success('支付订单创建成功');
+          toast.success('订单创建成功');
         }
         setTips(true)
       }
@@ -276,11 +276,11 @@ const HomePage = ({ rate }) => {
                 channel === '1012' ? (
                   <TextField
                     sx={{my: 2, width: 350 }}
-                    error={(parseInt(amount || 0) % 100) !== 0}
+                    error={amount && amount < 100}
                     label="充值金额（RMB）"
                     name="numberformat"
                     value={amount}
-                    helperText={(parseInt(amount || 0) % 100) !== 0 ? '请输入100的倍数' : ''}
+                    helperText={amount && amount < 100 ? '充值金额不得少于100' : ''}
                     onChange={e => setAmount(e.target.value)}
                     InputProps={{
                       inputComponent: NumericFormatRMB,

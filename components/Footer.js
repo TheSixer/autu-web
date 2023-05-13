@@ -229,7 +229,7 @@ const Footer = () => {
               <a href="/"><FormattedMessage id="footer.list.interest.conflicts.policy" /></a>
               <a href="/"><FormattedMessage id="footer.list.execution.policy" /></a>
             </div>
-            <p className="copyright">粤ICP备2022119610号-1 @ Copyright 2023-版权所有 TradeMax Global Market</p>
+            {/* <p className="copyright">粤ICP备2022119610号-1 @ Copyright 2023-版权所有 TradeMax Global Market</p> */}
           </div>
         </div>
       </footer>

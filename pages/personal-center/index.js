@@ -22,24 +22,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { useThrottleFn } from 'ahooks';
 import DialogTitle from '@mui/material/DialogTitle';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { NumericFormat } from 'react-number-format';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { createOrder, applyWithdraw } from '@/services';
-import { toast } from 'react-toastify';
+import { FormattedMessage, useIntl } from "react-intl";
 
 const TransferIcon = ({disabled}) => <img className={disabled ? 'filter grayscale' : ''} src="/assets/images/personal/transfer.png" />;
 const RechargeIcon = ({disabled}) => <img className={disabled ? 'filter grayscale' : ''} src="/assets/images/personal/recharge.png" />;
 const WithdrawalIcon = ({disabled}) => <img className={disabled ? 'filter grayscale' : ''} src="/assets/images/personal/withdrawal.png" />;
-
-const VisaIcon = ({disabled}) => <img className={`h-24 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/visa@2x.png" />;
-const VisaHelpIcon = ({disabled}) => <img className={`h-24 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/visa_help@2x.png" />;
-const USDTIcon = ({disabled}) => <img className={`h-24 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/usdt@2x.png" />;
-const USDTHelpIcon = ({disabled}) => <img className={`h-24 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/usdt_help@2x.png" />;
 
 export const getServerSideProps = async (context) => {
   
@@ -52,6 +42,10 @@ export const getServerSideProps = async (context) => {
     headers: { token: session.user.accessToken }
   });
   const { data: wallet } = await response.json();
+  const respon = await fetch(process.env.NEXT_PUBLIC_ORIGIN_URL + '/account/list', {
+    headers: { token: session.user.accessToken }
+  });
+  const { data: accounts } = await respon.json();
   const resp = await fetch(process.env.NEXT_PUBLIC_ORIGIN_URL + '/exchange/rate/list', {
     headers: { token: session.user.accessToken }
   });
@@ -68,7 +62,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     // 在组件 props 中 可以拿到 data
-    props: {...data, ...wallet, rate },
+    props: {...data, ...wallet, rate, accounts },
   }
 }
 
@@ -146,7 +140,7 @@ const NumericFormatUSD = forwardRef(function NumericFormatCustom(
   );
 });
 
-const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
+const HomePage = ({ balance, userName, ctid, completeVerify, rate, accounts }) => {
   const router = useRouter();
   const [open, setOpen] = useState(!completeVerify);
   const [showFound, setShowFound] = useState(false);
@@ -155,25 +149,27 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
   const [expand, setExpand] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [amount, setAmount] = useState('');
-  const [channel, setChannel] = useState('1012');
   const [bankName, setBankName] = useState('');
   const [realName, setRealName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
+  const intl = useIntl();
+
+  const bankNameTxt = intl.formatMessage({ id: "mine.index.personal.bank.name" });
+  const backCardTxt = intl.formatMessage({ id: "mine.index.personal.bank.card" });
+  const realnameTxt = intl.formatMessage({ id: "mine.index.personal.realname" });
+  const withdrawUSD = intl.formatMessage({ id: "mine.index.personal.withdraw.amount.usd" });
+  const withdrawRMB = intl.formatMessage({ id: "mine.index.personal.withdraw.amount.rmb" });
+  const withdrawLess = intl.formatMessage({ id: "mine.index.personal.withdraw.amount.less" });
+  const orderCreated = intl.formatMessage({ id: "mine.index.personal.order.created" });
+  const withdrawSubmitted = intl.formatMessage({ id: "mine.index.personal.withdraw.submitted" });
+  const rechargeTips = intl.formatMessage({ id: "mine.index.personal.recharge.tips" });
+  const withdrawTips = intl.formatMessage({ id: "mine.index.personal.withdraw.tips" });
   
   const usdCurrency = rate.find(({currency}) => currency === 'USD');
   
   const {
     run: handleWithdraw,
   } = useThrottleFn(() => {
-    if (!usdCurrency) {
-      toast.warn('管理员未设置当前汇率，请联系客服！');
-      return;
-    }
-    console.log(Math.floor(amount / usdCurrency?.rate * 100) / 100)
-    if (Math.floor(amount / usdCurrency?.rate * 100) / 100 > (balance / 100)) {
-      toast.warn('提现金额不能大于可用余额');
-      return;
-    }
     setLoading(true);
     applyWithdraw({
       bankName,
@@ -185,20 +181,6 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
         setFinish(2)
       }
       setWithdraw(false)
-      setLoading(false);
-    });
-  });
-
-  const {
-    run: handleFound,
-  } = useThrottleFn(() => {
-    setLoading(true);
-    createOrder({ amount: amount * 100, channel }).then(({code, data}) => {
-      if (!code && data) {
-        setFinish(1)
-        window.open(data, '_blank ');
-      }
-      setShowFound(false)
       setLoading(false);
     });
   });
@@ -228,7 +210,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
             }
             sx={{ mb: 2 }}
           >
-            您还未完成身份认证，账户信息暂不可用，<a className='text-blue-600 underline' href='/personal-center/verify'>立即前往</a> 完成认证！
+            <FormattedMessage id="mine.index.personal.verifyTips" /><a className='text-blue-600 underline' href='/personal-center/verify'><FormattedMessage id="mine.index.personal.goNow" /></a> <FormattedMessage id="mine.index.personal.toVerify" />
           </Alert>
         </Collapse>
         <Card className="mt-4" variant="outlined">
@@ -240,24 +222,30 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
               </div>
               <div className="flex flex-col justify-between flex-1 p-4 md:px-10 md:py-3.5">
                 <div className="mb-6 md:mb-0">
-                  <p className="text-base text-gray-600">你的钱包</p>
+                  <p className="text-base text-gray-600"><FormattedMessage id="mine.index.personal.yourWallet" /></p>
                   <p className="text-2xl font-semibold"><NumericFormat value={Math.floor(balance) / 100} displayType={'text'} thousandSeparator={true} prefix={'$'} /> USD</p>
                 </div>
                 <div className="flex justify-between flex-col md:flex-row">
-                  <p className="mr-4 text-base text-gray-600 font-normal">昵称: <span className="text-gray-900">{ userName }</span></p>
-                  <p className="mr-4 text-base text-gray-600 font-normal">cTID账号: <span className="text-gray-900">{ ctid || '-' }</span></p>
+                  <p className="text-base text-gray-600 font-normal">
+                    <span className='mr-4'><FormattedMessage id="mine.index.personal.nikename" /></span>
+                    <span className="text-gray-900">{ userName }</span>
+                  </p>
+                  <p className="text-base text-gray-600 font-normal">
+                    <span className='mr-4'><FormattedMessage id="mine.index.personal.ctid" /></span>
+                    <span className="text-gray-900">{ ctid || '-' }</span>
+                  </p>
                 </div>
               </div>
             </div>
             <Stack className="flex-col gap-4 sm:flex-row mt-10 mb-2" spacing={2} direction="row">
-              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify} />} onClick={() => router.push('/personal-center/recharge')}>
-                充值
+              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts.length} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify || !accounts.length} />} onClick={() => router.push('/personal-center/recharge')}>
+                <FormattedMessage id="mine.index.personal.recharge" />
               </Button>
               <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled variant="outlined" size="large" startIcon={<RechargeIcon disabled />} onClick={() => router.push('/personal-center/transfer')}>
-                转账
+                <FormattedMessage id="mine.index.personal.transfer" />
               </Button>
-              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<WithdrawalIcon disabled={!completeVerify} />} onClick={() => setWithdraw(true)}>
-                提现
+              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts.length} variant="outlined" size="large" startIcon={<WithdrawalIcon disabled={!completeVerify || !accounts.length} />} onClick={() => setWithdraw(true)}>
+                <FormattedMessage id="mine.index.personal.withdraw" />
               </Button>
             </Stack>
           </CardContent>
@@ -269,7 +257,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
             id="panel1a-header"
           >
             <Stack sx={{ mx: 'auto' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
-              <span className='text-base'>交易记录</span>
+              <span className='text-base'><FormattedMessage id="mine.index.personal.tradingRecords" /></span>
               <img className="w-4 h-4" src="/assets/images/arrow.png" />
             </Stack>
           </AccordionSummary>
@@ -279,76 +267,18 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
         </Accordion>
       </div>
 
-      <Dialog open={showFound} disableEscapeKeyDown>
-        <DialogTitle>充值</DialogTitle>
-        <DialogContent>
-          <Stack sx={{ width: 320, p: 2 }} spacing={2}>
-            <TextField
-              error={(parseInt(amount || 0) % 100) !== 0}
-              label="充值金额（RMB）"
-              name="numberformat"
-              value={amount}
-              helperText={(parseInt(amount || 0) % 100) !== 0 ? '请输入100的倍数' : ''}
-              onChange={e => setAmount(e.target.value)}
-              InputProps={{
-                inputComponent: NumericFormatRMB,
-              }}
-              fullWidth
-            />
-
-            <TextField
-              label="充值金额（USD）"
-              name="numberformat"
-              value={usdCurrency ? (Math.floor(amount / usdCurrency?.rate * 100) / 100) : 0}
-              onChange={e => setAmount(e.target.value)}
-              InputProps={{
-                inputComponent: NumericFormatUSD,
-              }}
-              disabled
-              fullWidth
-            />
-            <FormControl>
-              <FormLabel id="demo-radio-buttons-group-label">请选择支付渠道</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-radio-buttons-group-label"
-                value={channel}
-                onChange={e => setChannel(e.target.value)}
-                name="radio-buttons-group"
-              >
-                <FormControlLabel value="1012" control={<Radio />} label={<VisaIcon />} />
-                <FormControlLabel value="1013" control={<Radio />} label={<VisaHelpIcon disabled />} disabled />
-                <FormControlLabel value="1014" control={<Radio />} label={<USDTIcon disabled />} disabled />
-                <FormControlLabel value="1015" control={<Radio />} label={<USDTHelpIcon disabled />} disabled />
-              </RadioGroup>
-            </FormControl>
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowFound(false)} disabled={loading}>取消</Button>
-          <LoadingButton
-            size="small"
-            onClick={handleFound}
-            loading={loading}
-            disabled={loading || !amount || (parseInt(amount || 0) % 100) !== 0}
-          >
-            <span>确认充值</span>
-          </LoadingButton>
-        </DialogActions>
-      </Dialog>
-
       <Dialog open={withdraw} disableEscapeKeyDown>
-        <DialogTitle>提现</DialogTitle>
+        <DialogTitle><FormattedMessage id="mine.index.personal.withdraw" /></DialogTitle>
         <DialogContent>
           <Stack sx={{ width: 320, p: 2 }} spacing={2}>
             <TextField
-              label="开户银行名称"
+              label={bankNameTxt}
               value={bankName}
               onChange={e => setBankName(e.target.value)}
               fullWidth
             />
             <TextField
-              label="银行卡号"
+              label={backCardTxt}
               value={cardNumber}
               onChange={e => setCardNumber(e.target.value)}
               InputProps={{
@@ -357,16 +287,16 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
               fullWidth
             />
             <TextField
-              label="真实姓名"
+              label={realnameTxt}
               value={realName}
               onChange={e => setRealName(e.target.value)}
               fullWidth
             />
             <TextField
-              error={(parseInt(amount || 0) % 100) !== 0}
-              label="提现金额（RMB）"
+              error={amount && amount < 100}
+              label={withdrawRMB}
               value={amount}
-              helperText={(parseInt(amount || 0) % 100) !== 0 ? '请输入100的倍数' : ''}
+              helperText={amount && amount < 100 ? withdrawLess : ''}
               onChange={e => setAmount(e.target.value)}
               InputProps={{
                 inputComponent: NumericFormatRMB,
@@ -375,7 +305,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
             />
 
             <TextField
-              label="提现金额（USD）"
+              label={withdrawUSD}
               value={usdCurrency ? (Math.floor(amount / usdCurrency?.rate * 100) / 100) : 0}
               onChange={e => setAmount(e.target.value)}
               InputProps={{
@@ -387,14 +317,14 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setWithdraw(false)} disabled={loading}>取消</Button>
+          <Button onClick={() => setWithdraw(false)} disabled={loading}><FormattedMessage id="cancel" /></Button>
           <LoadingButton
             size="small"
             onClick={handleWithdraw}
             loading={loading}
-            disabled={loading || !bankName || !cardNumber || !realName || !amount || (parseInt(amount || 0) % 100) !== 0}
+            disabled={loading || !bankName || !cardNumber || !realName || !amount || amount < 100}
           >
-            <span>确认提现</span>
+            <span><FormattedMessage id="mine.index.personal.withdraw.confirm" /></span>
           </LoadingButton>
         </DialogActions>
       </Dialog>
@@ -406,22 +336,22 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
         <DialogTitle id="alert-dialog-title">
           {
             finish === 1 ?
-              '订单创建成功'
-              : '提现申请成功'
+              orderCreated
+              : withdrawSubmitted
           }
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {
               finish === 1 ?
-                '请及时前往指定页面完成支付充值，如已完成充值，您可前往交易记录中查看到您的充值记录，等待管理员审核后，充值金额会即时转入您的钱包中。'
-                : '您的提现申请已经提交，等待管理员审核通过后，提现金额会即时转入您的银行账户中'
+                rechargeTips
+                : withdrawTips
             }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setFinish(0)} autoFocus>
-            知道了
+            <FormattedMessage id="mine.index.personal.gotit" />
           </Button>
         </DialogActions>
       </Dialog>

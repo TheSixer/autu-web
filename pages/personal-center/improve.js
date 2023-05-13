@@ -2,6 +2,7 @@ import Layout from "@/components/PersonalImproveLayout";
 import ImproveSteps from "@/components/ImproveSteps";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { FormattedMessage } from "react-intl";
 
 export const getServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions)
@@ -31,7 +32,7 @@ const HomePage = ({baseInfo, employmentInfo, userAddressInfo}) => (
       
       <div className="py-4">
         <div className="login-form-header-title mb-9">
-          <h4 className="text-lg text-black font-bold">完善个人信息</h4>
+          <h4 className="text-lg text-black font-bold"><FormattedMessage id="imorove.title" /></h4>
         </div>
       </div>
 

@@ -224,10 +224,6 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
   });
   
   const handleTransfer = () => {
-    if (amount * 100 > balance) {
-      toast.warn('转入金额不能超过您的可用余额');
-      return;
-    }
     setLoading(true);
     transferToTrader({
       login: currentRow.login,

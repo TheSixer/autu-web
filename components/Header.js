@@ -4,7 +4,7 @@ import SideMenu from "./SideMenu";
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -23,7 +23,7 @@ const HeaderHome = (props) => {
   const [isShowDrawer, setIsShowDrawer] = useState();
   const { data: session } = useSession();
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -82,11 +82,11 @@ const HeaderHome = (props) => {
                 </Link>
               </>
             ) : (
-              <Stack sx={{ ml: 2, cursor: 'pointer' }} direction="row" alignItems="center" spacing={1}>
+              <Stack sx={{ ml: 2, cursor: 'pointer' }} direction="row" alignItems="center" spacing={1} onClick={handleClick}>
                 <Avatar sx={{ width: 32, height: 32, bgcolor: deepPurple[500] }}>
                   { session?.user?.name.slice(0, 1) }
                 </Avatar>
-                <Typography variant="button" onClick={handleClick}>
+                <Typography variant="button">
                   { session?.user?.name }
                 </Typography>
                 <Menu
@@ -98,9 +98,15 @@ const HeaderHome = (props) => {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={() => router.push('/personal-center')}>个人信息</MenuItem>
-                  <MenuItem onClick={() => router.push('/personal-center/verify')}>实名认证</MenuItem>
-                  <MenuItem onClick={signOut}>Logout</MenuItem>
+                  <MenuItem sx={{ width: 160 }} onClick={() => router.push('/personal-center')}>
+                    <span className="text-base"><FormattedMessage id="mine.index.personal.info" /></span>
+                  </MenuItem>
+                  <MenuItem sx={{ width: 160 }} onClick={() => router.push('/personal-center/verify')}>
+                    <span className="text-base"><FormattedMessage id="mine.index.personal.verify" /></span>
+                  </MenuItem>
+                  <MenuItem sx={{ width: 160 }} onClick={signOut}>
+                    <span className="text-base"><FormattedMessage id="head.menu.signOut" /></span>
+                  </MenuItem>
                 </Menu>
               </Stack>
             )

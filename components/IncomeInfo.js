@@ -17,6 +17,7 @@ import { useThrottleFn } from 'ahooks';
 import { saveFinancialInfo } from '@/services';
 import { useRouter } from "next/router";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useIntl } from "react-intl";
 
 export default function CustomizedSteppers() {
   const [open, setOpen] = React.useState(false);
@@ -26,6 +27,17 @@ export default function CustomizedSteppers() {
   const [sourceOfWealth, setSourceOfWealth] = useState('');
   const [expectNext12Month, setExpectNext12Month] = useState('');
   const router = useRouter();
+  const intl = useIntl();
+
+  const annualTxt = intl.formatMessage({ id: "imorove.step.imcome.annual" });
+  const estimatedNetAssetsTxt = intl.formatMessage({ id: "imorove.step.imcome.estimatedNetAssets" });
+  const sourceOfIncomeTxt = intl.formatMessage({ id: "imorove.step.imcome.sourceOfIncome" });
+  const expectTxt = intl.formatMessage({ id: "imorove.step.imcome.expect" });
+  const employmentTxt = intl.formatMessage({ id: "imorove.step.imcome.employment" });
+  const savingsTxt = intl.formatMessage({ id: "imorove.step.imcome.savings" });
+  const giftsTxt = intl.formatMessage({ id: "imorove.step.imcome.gifts" });
+  const othersTxt = intl.formatMessage({ id: "imorove.step.imcome.others" });
+  const finishTxt = intl.formatMessage({ id: "imorove.step.imcome.finish" });
 
   const {
     run: handleSubmit,
@@ -47,12 +59,12 @@ export default function CustomizedSteppers() {
         <CardContent>
           <Stack direction="column" spacing={2} className="p-4">
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*全年收入</InputLabel>
+              <InputLabel id="demo-simple-select-label">{annualTxt}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={annualIncome}
-                label="*全年收入"
+                label={annualTxt}
                 onChange={e => setAnnualIncome(e.target.value)}
               >
                 <MenuItem value={0}>&gt; $1,000,000</MenuItem>
@@ -64,12 +76,12 @@ export default function CustomizedSteppers() {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*估计净资产（不包括您的主要住所）</InputLabel>
+              <InputLabel id="demo-simple-select-label">{estimatedNetAssetsTxt}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={netWorth}
-                label="*估计净资产（不包括您的主要住所）"
+                label={estimatedNetAssetsTxt}
                 onChange={e => setNetWorth(e.target.value)}
               >
                 <MenuItem value={0}>&gt; $1,000,000</MenuItem>
@@ -81,15 +93,27 @@ export default function CustomizedSteppers() {
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*收入来源" onChange={e => setSourceOfWealth(e.target.value)} variant="outlined" />
+              <InputLabel id="demo-simple-select-label">{sourceOfIncomeTxt}</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sourceOfWealth}
+                label={sourceOfIncomeTxt}
+                onChange={e => setSourceOfWealth(e.target.value)}
+              >
+                <MenuItem value={employmentTxt}>{employmentTxt}</MenuItem>
+                <MenuItem value={savingsTxt}>{savingsTxt}</MenuItem>
+                <MenuItem value={giftsTxt}>{giftsTxt}</MenuItem>
+                <MenuItem value={othersTxt}>{othersTxt}</MenuItem>
+              </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*您预计在未来 12 个月内将获得多少资金</InputLabel>
+              <InputLabel id="demo-simple-select-label">{expectTxt}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={expectNext12Month}
-                label="*您预计在未来 12 个月内将获得多少资金"
+                label={expectTxt}
                 onChange={e => setExpectNext12Month(e.target.value)}
               >
                 <MenuItem value={0}>&lt; $10,000</MenuItem>
@@ -109,7 +133,7 @@ export default function CustomizedSteppers() {
               disabled={annualIncome === '' || netWorth === '' || !sourceOfWealth || expectNext12Month === ''}
               onClick={handleSubmit}
             >
-              完成
+              {finishTxt}
             </LoadingButton>
 
           </Stack>

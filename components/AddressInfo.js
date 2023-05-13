@@ -7,12 +7,19 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useThrottleFn } from 'ahooks';
 import { saveAddressInfo } from '@/services';
+import { useIntl } from "react-intl";
 
 export default function CustomizedSteppers({ next }) {
   const [loading, setLoading] = useState(false);
   const [city, setCity] = useState('');
   const [postcode, setPostcode] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
+  const intl = useIntl();
+
+  const streetTxt = intl.formatMessage({ id: "imorove.step.address.street" });
+  const postCodeTxt = intl.formatMessage({ id: "imorove.step.address.postCode" });
+  const cityTxt = intl.formatMessage({ id: "imorove.step.address.city" });
+  const nextTxt = intl.formatMessage({ id: "imorove.step.next" });
 
   const {
     run: handleNext,
@@ -34,13 +41,13 @@ export default function CustomizedSteppers({ next }) {
         <CardContent>
           <Stack direction="column" spacing={2} className="p-4">
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*街道、建筑、公寓等" value={detailAddress} variant="outlined" onChange={e => setDetailAddress(e.target.value)} />
+              <TextField id="outlined-basic" label={streetTxt} value={detailAddress} variant="outlined" onChange={e => setDetailAddress(e.target.value)} />
             </FormControl>
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*邮编" variant="outlined" value={postcode} onChange={e => setPostcode(e.target.value)} />
+              <TextField id="outlined-basic" label={postCodeTxt} variant="outlined" value={postcode} onChange={e => setPostcode(e.target.value)} />
             </FormControl>
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*城市" variant="outlined" value={city} onChange={e => setCity(e.target.value)} />
+              <TextField id="outlined-basic" label={cityTxt} variant="outlined" value={city} onChange={e => setCity(e.target.value)} />
             </FormControl>
 
             <Button
@@ -49,7 +56,7 @@ export default function CustomizedSteppers({ next }) {
               variant="contained"
               disabled={!detailAddress || !postcode || !city}
               onClick={handleNext}>
-              下一步
+              {nextTxt}
             </Button>
 
           </Stack>

@@ -11,7 +11,7 @@ export default function (props) {
     <>
       <Preloader />
 
-      <Layout pageTitle="Autu | Home Page">
+      <Layout pageTitle="Autu | Securities">
         <Header
           thime="white"
           btnClass="main-nav__btn"

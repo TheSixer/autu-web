@@ -4237,12 +4237,26 @@ button {
   background-color: #f6f6fb;
 }
 
+@media (min-width: 765px) {
+
+  .cta-two__images {
+    margin-left: auto;
+    margin-right: 0;
+    display: grid;
+    grid-template-columns: 216px 216px;
+    grid-template-rows: 216px 288px;
+    grid-template-areas: 
+    'a b'
+    'c c';
+    gap: 24px;
+  }
+}
 .cta-two__images {
   margin-left: auto;
   margin-right: 0;
   display: grid;
-  grid-template-columns: 216px 216px;
-  grid-template-rows: 216px 288px;
+  grid-template-columns: 160px 160px;
+  grid-template-rows: 160px 218px;
   grid-template-areas: 
   'a b'
   'c c';

@@ -26,7 +26,7 @@ const CTATwo = () => {
             <div className="cta-two__image wow fadeInDown">
               <img
                 src="/assets/images/home/aitrader@2x.png"
-                className="ai-img fadeInUp"
+                className="max-w-full mx-auto mt-16 my:mt-0 sm:w-2/3 md:w-80 lg:w-96 fadeInUp"
                 data-wow-duration="1500ms"
                 alt=""
               />

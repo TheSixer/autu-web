@@ -8,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useIntl } from "react-intl";
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import BaseInfo from './BaseInfo';
 import AddressInfo from './AddressInfo';
@@ -81,11 +82,17 @@ function ColorlibStepIcon(props) {
   );
 }
 
-const steps = ['个人信息', '住址', '职业信息', '经济收入'];
 
 export default function CustomizedSteppers(props) {
   const [step, setStep] = useState(props.step);
+  const intl = useIntl();
 
+  const baseInfoTxt = intl.formatMessage({ id: "imorove.step.baseInfo" });
+  const addressTxt = intl.formatMessage({ id: "imorove.step.address" });
+  const careerInfoTxt = intl.formatMessage({ id: "imorove.step.careerInfo" });
+  const imcomeTxt = intl.formatMessage({ id: "imorove.step.imcome" });
+  
+  const steps = [baseInfoTxt, addressTxt, careerInfoTxt, imcomeTxt];
   const handleNext = () => setStep(step + 1);
 
   return (

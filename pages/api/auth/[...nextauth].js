@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { ssrLogin } from '@/services';
 
 //配置next-auth，参考https://next-auth.js.org/configuration/options
 export const authOptions = {
@@ -10,18 +9,20 @@ export const authOptions = {
       name: 'login',
       async authorize(credentials, req) {//具体授权逻辑
         const { userName, password } = credentials;
-        const { code, data } = await ssrLogin({ userName, password });
-        // console.log('****************************')
-        // console.log(code, data)
-        // console.log('****************************')
+        const response = await fetch(process.env.NEXT_PUBLIC_ORIGIN_URL + '/login', {
+          method: 'POST',
+          headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userName, password })
+        });
+        const { code, data } = await response.json();
         if (!code) {
           return {
             name: data.userInfo.userName,
             email: data.userInfo.userName,
             accessToken: data.token,
-            refreshToken: data.token,
-            completeBaseInfo: data.userInfo.completeBaseInfo,
-            completeVerify: data.userInfo.completeVerify,
           }
         }
         return { status: 'reject', code }
@@ -53,17 +54,11 @@ export const authOptions = {
     },
     async session({ session, token, user }) {
       session.user.accessToken = token.accessToken
-      session.user.refreshToken = token.refreshToken
-      session.user.completeBaseInfo = token.completeBaseInfo
-      session.user.completeVerify = token.completeVerify
       return session
     },
     async jwt({token, user, account, profile}) {
       if (account?.type === 'credentials' && user) {
         token.accessToken = user.accessToken
-        token.refreshToken = user.refreshToken
-        token.completeBaseInfo = user.completeBaseInfo
-        token.completeVerify = user.completeVerify
       }
       return token
     }

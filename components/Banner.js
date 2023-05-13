@@ -18,11 +18,11 @@ const AppScreen = () => {
   return (
     <Swiper {...params} id="home">
       <div className="item swiper-home-item bg-cover first" style={{ backgroundImage: `url(/assets/images/banner01@2x.jpg)` }}>
-        <div className="text main-title w-full sm:w-10/12 md:w-10/12 lg:w-1/2 left-4  top-1/4 sm:left-16 md:left-24 lg:left-1/5 wow fadeIn">
-          <h2 className="mb-4 text-wihte text-center font-semibold text-3xl md:text-4xl lg:text-5xl">
+        <div className="px-2 sm:px-0 text main-title w-full sm:w-10/12 md:w-10/12 lg:w-1/2 left-0 sm:left-4 top-1/4 sm:left-16 md:left-24 lg:left-1/5 wow fadeIn">
+          <h2 className="mb-4 text-wihte text-center font-semibold text-2xl md:text-4xl lg:text-5xl lg:leading-normal">
             <FormattedMessage id="home.first.banner.title" />
           </h2>
-          <p className="text-wihte text-center sm:text-left font-semibold text-xl sm:text-2xl">
+          <p className="text-wihte text-center sm:text-left font-semibold text-lg sm:text-2xl">
             <FormattedMessage id="home.first.banner.subtitle" />
           </p>
         </div>

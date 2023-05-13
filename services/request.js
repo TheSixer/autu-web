@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 import ErrorCode from '@/constant';
 
 export default async (url = '', data = {}, type = 'GET') => {
-  // const baseUrl = process.env.NEXT_PUBLIC_ORIGIN_URL // 基础路径
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL // 基础路径
   type = type.toUpperCase(); // 请求方式小写转换成大写
-  // url = baseUrl + url; // 请求地址的拼接
+  url = baseUrl + url; // 请求地址的拼接
   let locale = 'en'
 
   const session = await getSession()

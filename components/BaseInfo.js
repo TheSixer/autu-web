@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import InputBase from '@mui/material/InputBase';
 import { useThrottleFn } from 'ahooks';
 import { saveBaseInfo } from '@/services';
-import { toast } from 'react-toastify';
+import { FormattedMessage, useIntl } from "react-intl";
 
 export default function CustomizedSteppers({ next }) {
   const [loading, setLoading] = useState(false);
@@ -27,6 +27,13 @@ export default function CustomizedSteppers({ next }) {
   const [birthDate, setBirthDate] = useState('');
   const [phone, setPhone] = useState('');
   const [exPhone, setExPhone] = useState('86');
+  const intl = useIntl();
+
+  const firstNameTxt = intl.formatMessage({ id: "imorove.step.baseInfo.firstName" });
+  const lastNameTxt = intl.formatMessage({ id: "imorove.step.baseInfo.lastName" });
+  const nationalityTxt = intl.formatMessage({ id: "imorove.step.baseInfo.nationality" });
+  const birthdayTxt = intl.formatMessage({ id: "imorove.step.baseInfo.birthday" });
+  const phoneTxt = intl.formatMessage({ id: "imorove.step.baseInfo.phone" });
 
   const {
     run: handleNext,
@@ -45,33 +52,42 @@ export default function CustomizedSteppers({ next }) {
     }
   });
 
+  const allCountries = useMemo(() => {
+    const obj = countryTelData.allCountries.find(({iso2}) => iso2 === 'cn');
+    const list = countryTelData.allCountries.filter(({iso2}) => iso2 !== 'cn');
+    if (obj) {
+      list.unshift(obj);
+    }
+    return list
+  }, [])
+
   return (
     <>
       <Card className="mt-4 mx-auto max-w-sm" variant="outlined">
         <CardContent>
           <Stack direction="column" spacing={2} className="p-4">
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*名字" value={firstName} variant="outlined" onChange={e => setFirstName(e.target.value)} />
+              <TextField id="outlined-basic" label={firstNameTxt} value={firstName} variant="outlined" onChange={e => setFirstName(e.target.value)} />
             </FormControl>
             <FormControl fullWidth>
-              <TextField id="outlined-basic" label="*姓氏" value={lastName} variant="outlined" onChange={e => setLastName(e.target.value)} />
+              <TextField id="outlined-basic" label={lastNameTxt} value={lastName} variant="outlined" onChange={e => setLastName(e.target.value)} />
             </FormControl>
             <FormControl fullWidth>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker label="出生年月" onChange={value => setBirthDate(dayjs(value).format('YYYY-MM-DD HH:mm:ss'))} disableFuture />
+                <DatePicker label={birthdayTxt} onChange={value => setBirthDate(dayjs(value).format('YYYY-MM-DD HH:mm:ss'))} disableFuture />
               </LocalizationProvider>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">*国籍</InputLabel>
+              <InputLabel id="demo-simple-select-label"><FormattedMessage id="imorove.step.baseInfo.nationality" /></InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={nationality}
-                label="*国籍"
+                label={nationalityTxt}
                 onChange={e => setNationality(e.target.value)}
               >
                 {
-                  countryTelData.allCountries.map(({name, iso2}) => <MenuItem value={iso2} key={iso2}>{name}</MenuItem>)
+                  allCountries.map(({name, iso2}) => <MenuItem value={iso2} key={iso2}>{name}</MenuItem>)
                 }
               </Select>
             </FormControl>
@@ -92,14 +108,14 @@ export default function CustomizedSteppers({ next }) {
                 variant="standard"
               >
                 {
-                  countryTelData.allCountries.map(({dialCode, iso2}) => <MenuItem value={dialCode} key={iso2}>+{dialCode}</MenuItem>)
+                  allCountries.map(({dialCode, iso2}) => <MenuItem value={dialCode} key={iso2}>+{dialCode}</MenuItem>)
                 }
               </Select>
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder="*联系方式"
+                placeholder={phoneTxt}
                 value={phone}
-                inputProps={{ 'aria-label': '*联系方式' }}
+                inputProps={{ 'aria-label': phoneTxt }}
                 onChange={e => setPhone(e.target.value)}
               />
             </Paper>
@@ -110,7 +126,7 @@ export default function CustomizedSteppers({ next }) {
               variant="contained"
               disabled={!firstName || !lastName || !birthDate || !nationality || !phone}
               onClick={handleNext}>
-              下一步
+              <FormattedMessage id="imorove.step.next" />
             </Button>
 
           </Stack>

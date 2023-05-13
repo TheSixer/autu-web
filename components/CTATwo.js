@@ -23,7 +23,7 @@ const CTATwo = () => {
             </div>
           </div>
           <div className="d-flex col-md-6 col-lg-5">
-            <div className="sm:mr-auto cta-two__images">
+            <div className="mt-8 md:mt-0 md:mr-auto cta-two__images">
               <div className="cta-two__images-item">
                 <img
                   src="/assets/images/home/vmware@2x.png"

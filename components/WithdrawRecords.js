@@ -247,7 +247,7 @@ export default function EnhancedTable() {
         
         {!total && !loading ? (
           <Typography sx={{ py: 4 }} variant="overline" align="center" display="block" gutterBottom>
-            暂无交易记录
+            暂无提现记录
           </Typography>
         ) : (
           <>

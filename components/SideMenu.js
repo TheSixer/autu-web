@@ -17,6 +17,8 @@ import { useIntl } from "react-intl";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useRouter } from "next/router";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 const SideMenu = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,6 +50,11 @@ const SideMenu = (props) => {
       role="presentation"
       onKeyDown={props.toggleDrawer}
     >
+      <Stack direction="row" spacing={2} sx={{ px:4, py: 2 }}>
+        <Button variant="contained" color="warning" onClick={() => router.push('/login')}>登录</Button>
+        <Button variant="outlined" color="warning" onClick={() => router.push('/register')}>注册</Button>
+      </Stack>
+      <Divider />
       <List>
         <ListItem>
           <ListItemButton onClick={() => router.push('/')}>

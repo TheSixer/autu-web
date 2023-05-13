@@ -9,7 +9,7 @@ const Privacypolicy = () => (
   <div>
     <Preloader />
 
-    <Layout pageTitle="Apiton | Home Page">
+    <Layout pageTitle="Apiton | Securities">
       <Header
         btnClass="main-nav__btn"
         extraClassName="site-header-one__fixed-top"

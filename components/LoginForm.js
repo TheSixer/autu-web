@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { FormattedMessage, useIntl } from "react-intl";
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -15,6 +16,10 @@ const LoginForm = ({ token }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassward] = useState('');
   const [loading, setLoading] = useState(false);
+  const intl = useIntl();
+
+  const enterEmail = intl.formatMessage({ id: "login.enter.email" });
+  const enterPwd = intl.formatMessage({ id: "login.enter.password" });
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -47,7 +52,7 @@ const LoginForm = ({ token }) => {
           <CardContent>
             <div className="login-form-header px-10">
               <div className="login-form-header-title mb-9">
-                <h4 className="text-lg font-bold">登录</h4>
+                <h4 className="text-lg font-bold"><FormattedMessage id="login.title" /></h4>
               </div>
               <img className="login-form-logo mx-auto" src="/assets/images/Autu-Securities@2x.png" />
             </div>
@@ -57,7 +62,7 @@ const LoginForm = ({ token }) => {
                 name="email"
                 id="outlined-name"
                 value={userName}
-                label="*输入您的电子邮箱"
+                label={enterEmail}
                 margin="normal"
                 variant="outlined"
                 onChange={e => setUserName(e.target.value)}
@@ -71,7 +76,7 @@ const LoginForm = ({ token }) => {
                 value={password}
                 type={showPassword ? 'text' : 'password'}
                 id="outlined-error"
-                label="*输入您的密码"
+                label={enterPwd}
                 margin="normal"
                 variant="outlined"
                 InputProps={{
@@ -90,10 +95,10 @@ const LoginForm = ({ token }) => {
                 fullWidth
               />
               <div className="text-right">
-                <Link className="text-sm text-blue-600" href="/forget">忘记密码？</Link>
+                <Link className="text-sm text-blue-600" href="/forget"><FormattedMessage id="login.enter.forget.pwd" /></Link>
               </div>
               <Button disabled={!userName || !password || loading} onClick={handleSubmit} className="w-full py-2 bg-blue-900" sx={{ mt: 4, borderRadius: '20px' }} variant="contained">登录</Button>
-              <p className="text-sm text-blue-600 m-6 text-center"><Link href="/register">注册一个新账户</Link></p>
+              <p className="text-sm text-blue-600 m-6 text-center"><Link href="/register"><FormattedMessage id="login.enter.signUpAnotherAccount" /></Link></p>
             </form>
           </CardContent>
         </Card>

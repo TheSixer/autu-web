@@ -5,11 +5,15 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useThrottleFn } from 'ahooks';
 import { forgetPassward } from '@/services';
+import { FormattedMessage, useIntl } from "react-intl";
 import Typography from '@mui/material/Typography';
 
 const ForgetForm = () => {
   const [status, setStatus] = useState(0);
   const [userName, setUserName] = useState('');
+  const intl = useIntl();
+
+  const enterEmail = intl.formatMessage({ id: "login.enter.email" });
 
   const {
     run: handleSubmit,
@@ -30,7 +34,7 @@ const ForgetForm = () => {
                 <>
                   <div className="login-form-header px-10">
                     <div className="login-form-header-title mb-9">
-                      <h4 className="text-lg font-bold">忘记密码</h4>
+                      <h4 className="text-lg font-bold"><FormattedMessage id="forget.title" /></h4>
                     </div>
                     <img className="login-form-logo mx-auto" src="/assets/images/Autu-Securities@2x.png" />
                   </div>
@@ -38,19 +42,19 @@ const ForgetForm = () => {
                     <TextField
                       name="email"
                       id="outlined-name"
-                      label="*输入您的电子邮箱"
+                      label={enterEmail}
                       margin="normal"
                       variant="outlined"
                       onChange={e => setUserName(e.target.value)}
                       fullWidth
                     />
 
-                    <Button onClick={handleSubmit} className="w-full mt-10 py-2 bg-blue-900 rounded-3xl" variant="contained">发送重置邮件</Button>
+                    <Button onClick={handleSubmit} className="w-full mt-10 py-2 bg-blue-900 rounded-3xl" variant="contained"><FormattedMessage id="forget.sendEmial" /></Button>
                   </form>
                 </>
               ) : (
                 <Typography variant="subtitle1" gutterBottom>
-                  我们已经往您的邮箱发送了一封重置密码的邮件，请移步您的邮箱查看！点击邮件中的重置链接，前往设置您的新密码！
+                  <FormattedMessage id="forget.tips" />
                 </Typography>
               )
             }
