@@ -22,74 +22,50 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useThrottleFn } from 'ahooks';
 import { transferToTrader, transferToWallet, fetchAccountList } from '@/services';
 import { toast } from 'react-toastify';
-import { styled } from '@mui/material/styles';
-
-const BootstrapButton = styled(Button)({
-  padding: '12px 8px',
-});
-
-function createData(name, calories, fat, carbs, protein, protin, rotin) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    protin,
-    rotin,
-  };
-}
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: 'login',
-    numeric: false,
-    disablePadding: false,
-    label: '账号',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: '状态',
-  },
-  {
-    id: 'leverageInCents',
-    numeric: true,
-    disablePadding: false,
-    label: '杠杆',
-  },
-  {
-    id: 'balance',
-    numeric: true,
-    disablePadding: false,
-    label: '余额',
-  },
-  {
-    id: 'depositCurrency',
-    numeric: true,
-    disablePadding: false,
-    label: '货币',
-  },
-];
+import { useIntl } from "react-intl";
 
 function EnhancedTableHead(props) {
+  const intl = useIntl();
+
+  const loginTxt = intl.formatMessage({ id: "account.login" });
+  const statusTxt = intl.formatMessage({ id: "status" });
+  const balanceTxt = intl.formatMessage({ id: "balance" });
+  const currencyTxt = intl.formatMessage({ id: "currency" });
+  const leverTxt = intl.formatMessage({ id: "lever" });
+  const actionsTxt = intl.formatMessage({ id: "actions" });
+  
+  const headCells = [
+    {
+      id: 'login',
+      numeric: false,
+      disablePadding: false,
+      label: loginTxt,
+    },
+    {
+      id: 'status',
+      numeric: true,
+      disablePadding: false,
+      label: statusTxt,
+    },
+    {
+      id: 'leverageInCents',
+      numeric: true,
+      disablePadding: false,
+      label: leverTxt,
+    },
+    {
+      id: 'balance',
+      numeric: true,
+      disablePadding: false,
+      label: balanceTxt,
+    },
+    {
+      id: 'depositCurrency',
+      numeric: true,
+      disablePadding: false,
+      label: currencyTxt,
+    },
+  ];
   const { order, orderBy } =
     props;
 
@@ -104,7 +80,7 @@ function EnhancedTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
           >{headCell.label}</TableCell>
         ))}
-        <TableCell align="right">操作</TableCell>
+        <TableCell align="right">{actionsTxt}</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -171,7 +147,20 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
   const [currentRow, setCurrentRow] = useState(null);
   const [dataList, setDataList] = useState([]);
   const [type, setType] = useState(0);
+  const intl = useIntl();
 
+  const inSuccessTxt = intl.formatMessage({ id: "account.transfer.in.success" });
+  const outSuccessTxt = intl.formatMessage({ id: "account.transfer.out.success" });
+  const noBalanceTxt = intl.formatMessage({ id: "account.no.balance" });
+  const noAccountsTxt = intl.formatMessage({ id: "account.no.accounts" });
+  const fundTxt = intl.formatMessage({ id: "account.no.fund" });
+  const withdrawTxt = intl.formatMessage({ id: "account.no.withdraw" });
+  const transferIn = intl.formatMessage({ id: "account.transfer.in" });
+  const transferOut = intl.formatMessage({ id: "account.transfer.in" });
+  const amountTxt = intl.formatMessage({ id: "mine.index.personal.amount" });
+  const confirmTxt = intl.formatMessage({ id: "confirm" });
+  const cancelTxt = intl.formatMessage({ id: "cancel" });
+  
   const handleClickOpen = (row, type) => {
     setAmount('')
     setType(type);
@@ -230,7 +219,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
       amount: amount * 100,
     }).then(({code}) => {
       if (!code) {
-        toast.success('转入成功');
+        toast.success(inSuccessTxt);
         fetchList()
         onUpdate();
         setOpen(false);
@@ -241,7 +230,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
 
   const handleWithdraw = () => {
     if (amount * 100 > currentRow.balance) {
-      toast.warn('账户余额不足');
+      toast.warn(noBalanceTxt);
       return;
     }
     setLoading(true);
@@ -251,7 +240,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
     }).then(({code}) => {
       setLoading(false);
       if (!code) {
-        toast.success('转出成功');
+        toast.success(outSuccessTxt);
         fetchList()
         onUpdate();
         setOpen(false);
@@ -328,7 +317,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
         
         {!dataList.length && !initLoading ? (
           <Typography sx={{ mt: 4 }} variant="overline" align="center" display="block" gutterBottom>
-            暂无账户信息
+            {noAccountsTxt}
           </Typography>
         ) : (
           <>
@@ -346,11 +335,11 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
       </Paper>
 
       <Dialog open={open} disableEscapeKeyDown>
-        <DialogTitle>{type ? '出金' : '入金'}</DialogTitle>
+        <DialogTitle>{type ? withdrawTxt : fundTxt}</DialogTitle>
         <DialogContent>
           <Stack sx={{ width: 320, p: 2 }} spacing={2}>
             <TextField
-              label={`${type ? '转出' : '转入'}金额（${currentRow?.depositCurrency}）`}
+              label={`${type ? transferOut : transferIn} ${amountTxt}（${currentRow?.depositCurrency}）`}
               value={amount}
               onChange={e => setAmount(e.target.value)}
               InputProps={{
@@ -372,59 +361,17 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} disabled={loading}>取消</Button>
+          <Button onClick={() => setOpen(false)} disabled={loading}>{cancelTxt}</Button>
           <LoadingButton
             size="small"
             onClick={handleConfirm}
             loading={loading}
             disabled={loading || !amount}
           >
-            <span>确认{type ? '转出' : '转入'}</span>
+            <span>{confirmTxt} {type ? transferOut : transferIn}</span>
           </LoadingButton>
         </DialogActions>
       </Dialog>
-
-      {/* <Dialog open={open} onClose={handleClose}>
-        <DialogTitle className='pr-2 pt-2'>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <span className='font-semibold'>变更奖金</span>
-            <IconButton onClick={handleClose}>
-              <Close/>
-            </IconButton>
-          </Stack>
-        </DialogTitle>
-        <DialogContent sx={{ p: 5 }}>
-          <Paper
-            variant="outlined"
-            component="form"
-            sx={{ mb: 2, display: 'flex', alignItems: 'center', width: 300 }}
-          >
-            <BootstrapButton className='bg-blue-700 hover:bg-blue-700' variant="contained" disableRipple>
-              <Add />
-            </BootstrapButton>
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="变更金额"
-              inputProps={{ 'aria-label': '变更金额' }}
-            />
-          </Paper>
-          <Paper
-            variant="outlined"
-            component="form"
-            sx={{ display: 'flex', alignItems: 'center', width: 300 }}
-          >
-            <BootstrapButton className='bg-gray-50 text-gray-400 hover:bg-gray-50' variant="contained" disableRipple>
-              <HorizontalRuleIcon />
-            </BootstrapButton>
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="变更金额"
-              inputProps={{ 'aria-label': '变更金额', textAlign: 'right' }}
-            />
-          </Paper>
-          <Button className="bg-blue-900" sx={{mt:4, py: 1.5}} onClick={handleClose} variant="contained" fullWidth>确认</Button>
-        </DialogContent>
-      </Dialog> */}
     </Box>
   );
 }

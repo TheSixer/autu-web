@@ -21,47 +21,56 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import { useThrottleFn } from 'ahooks';
 import { getRechargeList } from '@/services';
-
-const headCells = [
-  {
-    id: 'orderCode',
-    numeric: false,
-    disablePadding: false,
-    label: '订单号',
-  },
-  {
-    id: 'amount',
-    numeric: true,
-    disablePadding: false,
-    label: '充值金额',
-  },
-  {
-    id: 'channel',
-    numeric: true,
-    disablePadding: false,
-    label: '支付方式',
-  },
-  {
-    id: 'createTime',
-    numeric: true,
-    disablePadding: false,
-    label: '创建时间',
-  },
-  {
-    id: 'auditTime',
-    numeric: true,
-    disablePadding: false,
-    label: '审核时间',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: '审核状态',
-  },
-];
+import { useIntl } from "react-intl";
 
 function EnhancedTableHead(props) {
+  const intl = useIntl();
+
+  const orderNumTxt = intl.formatMessage({ id: "audit.orderNum" });
+  const paytypeTxt = intl.formatMessage({ id: "audit.paytype" });
+  const amountTxt = intl.formatMessage({ id: "audit.amount" });
+  const createTimeTxt = intl.formatMessage({ id: "audit.createTime" });
+  const timeTxt = intl.formatMessage({ id: "audit.time" });
+  const statusTxt = intl.formatMessage({ id: "audit.status" });
+
+  const headCells = [
+    {
+      id: 'orderCode',
+      numeric: false,
+      disablePadding: false,
+      label: orderNumTxt
+    },
+    {
+      id: 'amount',
+      numeric: true,
+      disablePadding: false,
+      label: amountTxt
+    },
+    {
+      id: 'channel',
+      numeric: true,
+      disablePadding: false,
+      label: paytypeTxt
+    },
+    {
+      id: 'createTime',
+      numeric: true,
+      disablePadding: false,
+      label: createTimeTxt
+    },
+    {
+      id: 'auditTime',
+      numeric: true,
+      disablePadding: false,
+      label: timeTxt
+    },
+    {
+      id: 'status',
+      numeric: true,
+      disablePadding: false,
+      label: statusTxt
+    },
+  ];
   return (
     <TableHead>
       <TableRow>
@@ -76,7 +85,14 @@ function EnhancedTableHead(props) {
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
   const [status, setStatus] = React.useState('0');
+  const intl = useIntl();
 
+  const searchTxt = intl.formatMessage({ id: "audit.search" });
+  const orderNumTxt = intl.formatMessage({ id: "audit.status" });
+  const allTxt = intl.formatMessage({ id: "mine.index.personal.all" });
+  const underReviewTxt = intl.formatMessage({ id: "mine.index.personal.underReview" });
+  const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
+  const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
   const {
     run: handleSearch,
   } = useThrottleFn(() => {
@@ -96,18 +112,18 @@ function EnhancedTableToolbar(props) {
     >
       <Stack direction="row" sx={{ my: 2 }} spacing={{ xs: 1, sm: 2, md: 4 }} alignItems="center" justifyContent="space-between">
         <FormControl sx={{ m: 1, minWidth: 180 }}>
-          <InputLabel id="demo-simple-select-label">审核状态</InputLabel>
+          <InputLabel id="demo-simple-select-label">{orderNumTxt}</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={status}
-            label="审核状态"
+            label={orderNumTxt}
             onChange={e => setStatus(e.target.value)}
           >
-            <MenuItem value={'0'}>全部</MenuItem>
-            <MenuItem value={'paying'}>审核中</MenuItem>
-            <MenuItem value={'success'}>审核通过</MenuItem>
-            <MenuItem value={'fail'}>审核不通过</MenuItem>
+            <MenuItem value={'0'}>{allTxt}</MenuItem>
+            <MenuItem value={'paying'}>{underReviewTxt}</MenuItem>
+            <MenuItem value={'success'}>{passedTxt}</MenuItem>
+            <MenuItem value={'fail'}>{rejectedTxt}</MenuItem>
           </Select>
         </FormControl>
 
@@ -119,7 +135,7 @@ function EnhancedTableToolbar(props) {
           onClick={handleSearch}
           fullWidth
         >
-          <span>搜索</span>
+          <span>{searchTxt}</span>
         </LoadingButton>
       </Stack>
     </Toolbar>
@@ -134,6 +150,15 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [status, setStatus] = React.useState('');
+  const intl = useIntl();
+
+  const underReviewTxt = intl.formatMessage({ id: "mine.index.personal.underReview" });
+  const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
+  const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
+  const thirdPayTxt = intl.formatMessage({ id: "mine.index.recharge.thirdPay" });
+  const digitalCurrencyTxt = intl.formatMessage({ id: "mine.index.recharge.digitalCurrency" });
+  const tnternationalWire = intl.formatMessage({ id: "mine.index.recharge.tnternationalWire" });
+  const noRchargeRecords = intl.formatMessage({ id: "audit.no.recharge.records" });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -196,12 +221,12 @@ export default function EnhancedTable() {
                   >
                     <TableCell align="left">{row.orderCode}</TableCell>
                     <TableCell align="left">{row.type === 'thirdPay' ? '¥' : '$'}{(Math.floor(row.amount * 100) / 10000) }</TableCell>
-                    <TableCell align="left">{row.type === 'thirdPay' ? '第三方支付' : row.type === 'digitalCurrency' ? '数字货币' : '国际电汇'}</TableCell>
+                    <TableCell align="left">{row.type === 'thirdPay' ? thirdPayTxt : row.type === 'digitalCurrency' ? digitalCurrencyTxt : tnternationalWire}</TableCell>
                     <TableCell align="left">{row.createTime}</TableCell>
                     <TableCell align="left">{row.auditTime || '-'}</TableCell>
                     <TableCell align="right">
                       <Chip
-                        label={row.status === 'paying' ? '审核中' : row.status === 'success' ? '已通过' : '未通过'}
+                        label={row.status === 'paying' ? underReviewTxt : row.status === 'success' ? passedTxt : rejectedTxt}
                         color={row.status === 'paying' ? 'warning' : row.status === 'success' ? 'success' : 'error'}
                         variant="outlined"
                       />
@@ -233,7 +258,7 @@ export default function EnhancedTable() {
         
         {!total && !loading ? (
           <Typography sx={{ py: 4 }} variant="overline" align="center" display="block" gutterBottom>
-            暂无充值记录
+            {noRchargeRecords}
           </Typography>
         ) : (
           <>

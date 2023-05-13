@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../api/auth/[...nextauth]"
 import { useEffect, useState } from "react";
 import { fetchWallet } from '@/services';
+import { FormattedMessage } from "react-intl";
 
 export const getServerSideProps = async (context) => {
   
@@ -61,7 +62,7 @@ const HomePage = ({ rate }) => {
   
       <div className="container p-8">
         <div className="mb-10">
-          <h4 className="text-black font-semibold">账户管理</h4>
+          <h4 className="text-black font-semibold"><FormattedMessage id="account.management" /></h4>
         </div>
 
         <AccountList balance={balance} rate={rate} onUpdate={fetchBalance} />
@@ -74,7 +75,7 @@ const HomePage = ({ rate }) => {
             startIcon={<Add />}
             onClick={() => router.push('/personal-center/create')}
           >
-            创建账户
+            <FormattedMessage id="account.create" />
           </Button>
         </Stack>
       </div>

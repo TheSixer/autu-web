@@ -45,7 +45,7 @@ export const getServerSideProps = async (context) => {
   const respon = await fetch(process.env.NEXT_PUBLIC_ORIGIN_URL + '/account/list', {
     headers: { token: session.user.accessToken }
   });
-  const { data: accounts } = await respon.json();
+  const accounts = await respon.json();
   const resp = await fetch(process.env.NEXT_PUBLIC_ORIGIN_URL + '/exchange/rate/list', {
     headers: { token: session.user.accessToken }
   });
@@ -62,7 +62,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     // 在组件 props 中 可以拿到 data
-    props: {...data, ...wallet, rate, accounts },
+    props: {...data, ...wallet, rate, accounts: accounts?.data || [] },
   }
 }
 
@@ -238,13 +238,13 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate, accounts }) =
               </div>
             </div>
             <Stack className="flex-col gap-4 sm:flex-row mt-10 mb-2" spacing={2} direction="row">
-              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts.length} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify || !accounts.length} />} onClick={() => router.push('/personal-center/recharge')}>
+              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts?.length} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify || !accounts?.length} />} onClick={() => router.push('/personal-center/recharge')}>
                 <FormattedMessage id="mine.index.personal.recharge" />
               </Button>
               <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled variant="outlined" size="large" startIcon={<RechargeIcon disabled />} onClick={() => router.push('/personal-center/transfer')}>
                 <FormattedMessage id="mine.index.personal.transfer" />
               </Button>
-              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts.length} variant="outlined" size="large" startIcon={<WithdrawalIcon disabled={!completeVerify || !accounts.length} />} onClick={() => setWithdraw(true)}>
+              <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify || !accounts?.length} variant="outlined" size="large" startIcon={<WithdrawalIcon disabled={!completeVerify || !accounts?.length} />} onClick={() => setWithdraw(true)}>
                 <FormattedMessage id="mine.index.personal.withdraw" />
               </Button>
             </Stack>

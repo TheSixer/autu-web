@@ -28,6 +28,7 @@ import { useThrottleFn } from 'ahooks';
 import { createOrder, getPolicy, getImgUrl } from '@/services';
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
+import { FormattedMessage, useIntl } from "react-intl";
 
 export const getServerSideProps = async (context) => {
   
@@ -95,19 +96,19 @@ const types = [{
 const VisaIcon = ({disabled}) => (
   <Stack>
     <img className={`h-16 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/visa@2x.png" />
-    <span>第三方支付</span>
+    <span><FormattedMessage id='mine.index.recharge.thirdPay' /></span>
   </Stack>
 );
 const USDTHelpIcon = ({disabled}) => (
   <Stack>
     <img className={`h-16 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/usdt_help@2x.png" />
-    <span>国际电汇</span>
+    <span><FormattedMessage id='mine.index.recharge.tnternationalWire' /></span>
   </Stack>
 );
 const USDTIcon = ({disabled}) => (
   <Stack>
     <img className={`h-16 ${ disabled ? 'filter grayscale' : ''}`} src="/assets/images/pay/usdt@2x.png" />
-    <span>数字货币</span>
+    <span><FormattedMessage id='mine.index.recharge.digitalCurrency' /></span>
   </Stack>
 );
 
@@ -169,6 +170,12 @@ const HomePage = ({ rate }) => {
   const [channel, setChannel] = useState('1012');
   const [payType, setPayType] = useState(null);
   const router = useRouter();
+  const intl = useIntl();
+
+  const rmbAmount = intl.formatMessage({ id: "mine.index.personal.recharge.amount.rmb" });
+  const usdAmount = intl.formatMessage({ id: "mine.index.personal.recharge.amount.usd" });
+  const lessAmount = intl.formatMessage({ id: "mine.index.personal.recharge.amount.less" });
+  const orderCreatedTxt = intl.formatMessage({ id: "mine.index.personal.order.created" });
 
   const usdCurrency = rate.find(({currency}) => currency === 'USD');
 
@@ -186,7 +193,7 @@ const HomePage = ({ rate }) => {
         if (channel === '1012') {
           window.open(data, '_blank ');
         } else {
-          toast.success('订单创建成功');
+          toast.success(orderCreatedTxt);
         }
         setTips(true)
       }
@@ -248,17 +255,17 @@ const HomePage = ({ rate }) => {
         <div className="p-2 mb-8">
           <Link href="/personal-center" className="inline-flex items-center text-sm">
             <img className="w-4 h-4 rotate-180 mr-1" src="/assets/images/arrow.png" />
-            <span>返回</span>
+            <span><FormattedMessage id='head.menu.back' /></span>
           </Link>
         </div>
         <Paper sx={{maxWidth: 850, mx: 'auto', p: 4}}>
 
-          <h4 className='mb-4 text-black font-semibold'>充值</h4>
+          <h4 className='mb-4 text-black font-semibold'><FormattedMessage id='mine.index.personal.recharge' /></h4>
           
           <div className='px-32'>
             <Stack direction="column">
               <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">*请选择支付渠道</FormLabel>
+                <FormLabel id="demo-radio-buttons-group-label"><FormattedMessage id='mine.index.recharge.payType' /></FormLabel>
                 <RadioGroup
                   row
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -276,11 +283,11 @@ const HomePage = ({ rate }) => {
                 channel === '1012' ? (
                   <TextField
                     sx={{my: 2, width: 350 }}
-                    error={amount && amount < 100}
-                    label="充值金额（RMB）"
+                    error={!!amount && amount < 100}
+                    label={rmbAmount}
                     name="numberformat"
                     value={amount}
-                    helperText={amount && amount < 100 ? '充值金额不得少于100' : ''}
+                    helperText={amount && amount < 100 ? lessAmount : ''}
                     onChange={e => setAmount(e.target.value)}
                     InputProps={{
                       inputComponent: NumericFormatRMB,
@@ -292,7 +299,7 @@ const HomePage = ({ rate }) => {
 
               <TextField
                 sx={{mt: 2, width: 350}}
-                label="充值金额（USD）"
+                label={usdAmount}
                 name="numberformat"
                 value={channel === 'internationalTransfer' || channel === 'digitalCurrency' ? amount : usdCurrency ? (Math.floor(amount / usdCurrency?.rate * 100) / 100) : 0}
                 onChange={e => setAmount(e.target.value)}
@@ -306,39 +313,39 @@ const HomePage = ({ rate }) => {
                 channel === 'internationalTransfer' ? (
                   <Card sx={{ my: 2 }} variant="outlined">
                     <CardContent sx={{p: 4}}>
-                      <h4 className='mb-2 text-base font-semibold'>收款银行信息</h4>
+                      <h4 className='mb-2 text-base font-semibold'><FormattedMessage id='mine.index.recharge.bankInfo' /></h4>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款银行名称：</p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.bankName' /></p>
                         <p className='text-base flex-shrink-0'>Pacific Private Bank</p>
                       </div>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款银行地址：</p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.backAddress' /></p>
                         <p className='text-base break-words'>1st floor, Govant Building, 278 Kumul Hwy, Port Vila</p>
                       </div>
                       <div className='flex mb-1'>
                         <p className='text-base flex-shrink-0 w-32'>SWIFT：</p>
                         <p className='text-base break-words'>PPBLVUVUXXX</p>
                       </div>
-                      <h4 className='my-2 text-base font-semibold'>收款人信息</h4>
+                      <h4 className='my-2 text-base font-semibold'><FormattedMessage id='mine.index.recharge.recieveInfo' /></h4>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款人名称： </p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.recieveName' /></p>
                         <p className='text-base break-words'>Autu Securities International Inc. – Client Account</p>
                       </div>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款人账号： </p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.recieveAccount' /></p>
                         <p className='text-base break-words'>6550-1-80008</p>
                       </div>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款人货币： </p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.recieveCurrency' /></p>
                         <p className='text-base break-words'>USD</p>
                       </div>
                       <div className='flex mb-1'>
-                        <p className='text-base flex-shrink-0 w-32'>收款人地址： </p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.recieveAddress' /></p>
                         <p className='text-base break-words'>Law Partners House, Po Box 212, Port Vila, Vanuatu</p>
                       </div>
                       <div className='flex'>
-                        <p className='text-base flex-shrink-0 w-32'>备注： </p>
-                        <p className='text-base break-words'>你的名字的拼音</p>
+                        <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.remark' />：</p>
+                        <p className='text-base break-words'><FormattedMessage id='mine.index.recharge.nameSpell' /></p>
                       </div>
                     </CardContent>
                   </Card>
@@ -347,7 +354,7 @@ const HomePage = ({ rate }) => {
               {
                 channel === 'digitalCurrency' ? (
                   <>
-                    <p className='mt-2 text-base text-gray-500'>*支付币种</p>
+                    <p className='mt-2 text-base text-gray-500'><FormattedMessage id='mine.index.recharge.currency' /></p>
                     <Stack direction="row" flexWrap="wrap">
                       {
                         types.map((opt) => (
@@ -362,22 +369,22 @@ const HomePage = ({ rate }) => {
                       payType ? (
                         <Card sx={{ width: 520, my: 2 }} variant="outlined">
                           <CardContent>
-                            <h4 className='mb-4 text-base font-semibold'>收款信息</h4>
+                            <h4 className='mb-4 text-base font-semibold'><FormattedMessage id='mine.index.recharge.billingInfo' /></h4>
                             <div className='flex'>
-                              <p className='text-base flex-shrink-0 w-24'>数字货币 </p>
+                              <p className='text-base flex-shrink-0 w-24'><FormattedMessage id='mine.index.recharge.digitalCurrency' /></p>
                               <p className='text-base break-words'>{payType.name}</p>
                             </div>
                             <div className='flex my-2'>
-                              <p className='text-base flex-shrink-0 w-24'>钱包地址 </p>
+                              <p className='text-base flex-shrink-0 w-24'><FormattedMessage id='mine.index.recharge.walletAddress' /></p>
                               <p className='text-base break-words'>{ payType.payName }</p>
                             </div>
                             <div className='flex'>
-                              <p className='text-base flex-shrink-0 w-24'>二维码 </p>
+                              <p className='text-base flex-shrink-0 w-24'><FormattedMessage id='mine.index.recharge.barcode' /></p>
                               <p className='text-base break-words'>
                                 <img width={180} src={payType.barcode} />
                               </p>
                             </div>
-                            <p className='mt-4 text-base text-gray-500'>*提示：请选择与收款地址一致的网络进行充值，否则您将会遗失这笔资金。</p>
+                            <p className='mt-4 text-base text-gray-500'><FormattedMessage id='mine.index.recharge.warning' /></p>
                           </CardContent>
                         </Card>
                       ) : null
@@ -388,7 +395,7 @@ const HomePage = ({ rate }) => {
               {
                 channel !== '1012' ? (
                   <Box>
-                    <p className='my-2 text-base text-gray-500'>上传支付凭证</p>
+                    <p className='my-2 text-base text-gray-500'><FormattedMessage id='mine.index.recharge.uploadPaymentVoucher' /></p>
                     <IconButton className='w-72 h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
                       <input hidden accept="image/*" type="file" onChange={e => onFileChange(e.target.files[0])} />
                       {!userPayImg && <PhotoCamera fontSize='large' />}
@@ -406,7 +413,7 @@ const HomePage = ({ rate }) => {
                 variant="contained"
                 onClick={handleSubmit}
                 fullWidth>
-                提交
+                <FormattedMessage id='mine.index.submit' />
               </LoadingButton>
             </Stack>
           </div>

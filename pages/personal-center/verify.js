@@ -15,6 +15,7 @@ import { authOptions } from "../api/auth/[...nextauth]"
 import { saveCardPic, getImgUrl } from '@/services';
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
+import { FormattedMessage, useIntl } from "react-intl";
 
 export const getServerSideProps = async (context) => {
   
@@ -55,6 +56,14 @@ const HomePage = ({userInfo, policy}) => {
   const [backendPhoto, setBackendPhoto] = useState('');
   const [userName, setUserName] = useState('');
   const router = useRouter();
+  const intl = useIntl();
+
+  const noUploadTxt = intl.formatMessage({ id: "verify.noUpload" });
+  const waitingAduitTxt = intl.formatMessage({ id: "verify.waiting.aduit" });
+  const underReviewTxt = intl.formatMessage({ id: "mine.index.personal.underReview" });
+  const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
+  const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
+  const realnameTxt = intl.formatMessage({ id: "mine.index.personal.realname" });
   
   const {
     run: handleSubmit,
@@ -66,7 +75,7 @@ const HomePage = ({userInfo, policy}) => {
       name: userName
     }).then(({code}) => {
       if (!code) {
-        toast.success('您的认证信息已提交，请等待审核！', {
+        toast.success(waitingAduitTxt, {
           autoClose: 2000,
           onClose: () => router.push('/personal-center')
         });
@@ -110,15 +119,15 @@ const HomePage = ({userInfo, policy}) => {
         <div className="p-2 mb-8 sm:mb-20">
           <Link href="/personal-center" className="inline-flex items-center text-sm">
             <img className="w-4 h-4 rotate-180 mr-1" src="/assets/images/arrow.png" />
-            <span>返回</span>
+            <span><FormattedMessage id='head.menu.back' /></span>
           </Link>
         </div>
         <Card className="mt-4 mx-auto max-w-sm" variant="outlined">
           <CardContent>
             <Box className="p-4">
-              <h4 className='text-black font-semibold'>身份信息&nbsp;&nbsp;
-              <Chip size='small' label={idCardInfo?.auditStatus === 0 ? '审核中' : idCardInfo?.auditStatus === 1 ? '审核已通过' : idCardInfo?.auditStatus === 2 ? '审核未通过' : '未上传'} color="success" variant="outlined" /></h4>
-              <p className='mt-2 mb-4 text-sm text-gray-500'>需要您提供本人身份证的正反面照片</p>
+              <h4 className='text-black font-semibold'><FormattedMessage id='verify.userInfo' />&nbsp;&nbsp;
+              <Chip size='small' label={idCardInfo?.auditStatus === 0 ? underReviewTxt : idCardInfo?.auditStatus === 1 ? passedTxt : idCardInfo?.auditStatus === 2 ? rejectedTxt : noUploadTxt} color="success" variant="outlined" /></h4>
+              <p className='mt-2 mb-4 text-sm text-gray-500'><FormattedMessage id='verify.provideTxt' /></p>
 
               <IconButton className='w-full h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
                 <input hidden accept="image/*" type="file" onChange={e => onChange(e.target.files[0], 0)} />
@@ -132,7 +141,7 @@ const HomePage = ({userInfo, policy}) => {
               </IconButton>
 
               <TextField
-                label="真实姓名"
+                label={realnameTxt}
                 value={userName}
                 onChange={e => setUserName(e.target.value)}
                 fullWidth
@@ -146,7 +155,7 @@ const HomePage = ({userInfo, policy}) => {
                 variant="contained"
                 onClick={handleSubmit}
                 fullWidth>
-                提交
+                <FormattedMessage id='mine.index.submit' />
               </LoadingButton>
 
             </Box>

@@ -21,59 +21,71 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 import { useThrottleFn } from 'ahooks';
 import { getWithdrawList } from '@/services';
+import { useIntl } from "react-intl";
 
-const headCells = [
-  {
-    id: 'bankName',
-    numeric: false,
-    disablePadding: false,
-    label: '开户银行',
-  },
-  {
-    id: 'cardNum',
-    numeric: false,
-    disablePadding: false,
-    label: '银行卡号',
-  },
-  {
-    id: 'realName',
-    numeric: false,
-    disablePadding: false,
-    label: '真实姓名',
-  },
-  {
-    id: 'amount',
-    numeric: true,
-    disablePadding: false,
-    label: '提现金额（RMB）',
-  },
-  {
-    id: 'createTime',
-    numeric: true,
-    disablePadding: false,
-    label: '创建时间',
-  },
-  {
-    id: 'auditTime',
-    numeric: true,
-    disablePadding: false,
-    label: '审核时间',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: '审核状态',
-  },
-  {
-    id: 'reason',
-    numeric: true,
-    disablePadding: false,
-    label: '备注',
-  },
-];
 
 function EnhancedTableHead(props) {
+  const intl = useIntl();
+
+  const bankTxt = intl.formatMessage({ id: "mine.index.personal.bank.name" });
+  const cardTxt = intl.formatMessage({ id: "mine.index.personal.bank.card" });
+  const realnameTxt = intl.formatMessage({ id: "mine.index.personal.realname" });
+  const RmbAmountTxt = intl.formatMessage({ id: "mine.index.personal.withdraw.amount.rmb" });
+  const createTimeTxt = intl.formatMessage({ id: "audit.createTime" });
+  const timeTxt = intl.formatMessage({ id: "audit.time" });
+  const statusTxt = intl.formatMessage({ id: "audit.status" });
+  const remarkTxt = intl.formatMessage({ id: "mine.index.recharge.remark" });
+  const headCells = [
+    {
+      id: 'bankName',
+      numeric: false,
+      disablePadding: false,
+      label: bankTxt
+    },
+    {
+      id: 'cardNum',
+      numeric: false,
+      disablePadding: false,
+      label: cardTxt
+    },
+    {
+      id: 'realName',
+      numeric: false,
+      disablePadding: false,
+      label: realnameTxt
+    },
+    {
+      id: 'amount',
+      numeric: true,
+      disablePadding: false,
+      label: RmbAmountTxt
+    },
+    {
+      id: 'createTime',
+      numeric: true,
+      disablePadding: false,
+      label: createTimeTxt
+    },
+    {
+      id: 'auditTime',
+      numeric: true,
+      disablePadding: false,
+      label: timeTxt
+    },
+    {
+      id: 'status',
+      numeric: true,
+      disablePadding: false,
+      label: statusTxt
+    },
+    {
+      id: 'reason',
+      numeric: true,
+      disablePadding: false,
+      label: remarkTxt
+    },
+  ];
+
   return (
     <TableHead>
       <TableRow>
@@ -88,6 +100,14 @@ function EnhancedTableHead(props) {
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
   const [status, setStatus] = React.useState(-1);
+  const intl = useIntl();
+
+  const searchTxt = intl.formatMessage({ id: "audit.search" });
+  const orderNumTxt = intl.formatMessage({ id: "audit.status" });
+  const allTxt = intl.formatMessage({ id: "mine.index.personal.all" });
+  const underReviewTxt = intl.formatMessage({ id: "mine.index.personal.underReview" });
+  const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
+  const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
 
   const {
     run: handleSearch,
@@ -108,18 +128,18 @@ function EnhancedTableToolbar(props) {
     >
       <Stack direction="row" sx={{ my: 2 }} spacing={{ xs: 1, sm: 2, md: 4 }} alignItems="center" justifyContent="space-between">
         <FormControl sx={{ m: 1, minWidth: 180 }}>
-          <InputLabel id="demo-simple-select-label">审核状态</InputLabel>
+          <InputLabel id="demo-simple-select-label">{orderNumTxt}</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={status}
-            label="审核状态"
+            label={orderNumTxt}
             onChange={e => setStatus(e.target.value)}
           >
-            <MenuItem value={-1}>全部</MenuItem>
-            <MenuItem value={0}>审核中</MenuItem>
-            <MenuItem value={1}>审核通过</MenuItem>
-            <MenuItem value={2}>审核不通过</MenuItem>
+            <MenuItem value={-1}>{allTxt}</MenuItem>
+            <MenuItem value={0}>{underReviewTxt}</MenuItem>
+            <MenuItem value={1}>{passedTxt}</MenuItem>
+            <MenuItem value={2}>{rejectedTxt}</MenuItem>
           </Select>
         </FormControl>
 
@@ -131,7 +151,7 @@ function EnhancedTableToolbar(props) {
           onClick={handleSearch}
           fullWidth
         >
-          <span>搜索</span>
+          <span>{searchTxt}</span>
         </LoadingButton>
       </Stack>
     </Toolbar>
@@ -146,6 +166,12 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [status, setStatus] = React.useState('');
+  const intl = useIntl();
+
+  const underReviewTxt = intl.formatMessage({ id: "mine.index.personal.underReview" });
+  const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
+  const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
+  const noWithdrawRecords = intl.formatMessage({ id: "audit.no.withdraw.records" });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -214,7 +240,7 @@ export default function EnhancedTable() {
                     <TableCell align="left">{row.auditTime || '-'}</TableCell>
                     <TableCell align="left">
                       <Chip
-                        label={!row.status ? '审核中' : row.status === 1 ? '已通过' : '未通过'}
+                        label={!row.status ? underReviewTxt : row.status === 1 ? passedTxt : rejectedTxt}
                         color={!row.status ? 'warning' : row.status === 1 ? 'success' : 'error'}
                         variant="outlined"
                       />
@@ -247,7 +273,7 @@ export default function EnhancedTable() {
         
         {!total && !loading ? (
           <Typography sx={{ py: 4 }} variant="overline" align="center" display="block" gutterBottom>
-            暂无提现记录
+            {noWithdrawRecords}
           </Typography>
         ) : (
           <>
