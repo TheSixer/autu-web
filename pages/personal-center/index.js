@@ -244,13 +244,13 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate }) => {
                   <p className="text-2xl font-semibold"><NumericFormat value={Math.floor(balance) / 100} displayType={'text'} thousandSeparator={true} prefix={'$'} /> USD</p>
                 </div>
                 <div className="flex justify-between flex-col md:flex-row">
-                  <p className="text-base text-gray-600 font-normal">昵称: <span className="ml-4 text-gray-900">{ userName }</span></p>
-                  <p className="text-base text-gray-600 font-normal">cTID账号: <span className="ml-4 text-gray-900">{ ctid || '-' }</span></p>
+                  <p className="mr-4 text-base text-gray-600 font-normal">昵称: <span className="text-gray-900">{ userName }</span></p>
+                  <p className="mr-4 text-base text-gray-600 font-normal">cTID账号: <span className="text-gray-900">{ ctid || '-' }</span></p>
                 </div>
               </div>
             </div>
             <Stack className="flex-col gap-4 sm:flex-row mt-10 mb-2" spacing={2} direction="row">
-              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify} />} onClick={() => setShowFound(true)}>
+              <Button className="sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled={!completeVerify} variant="outlined" size="large" startIcon={<TransferIcon disabled={!completeVerify} />} onClick={() => router.push('/personal-center/recharge')}>
                 充值
               </Button>
               <Button className="ml-0 sm:w-2/6 py-2" sx={{borderRadius: 6}} disabled variant="outlined" size="large" startIcon={<RechargeIcon disabled />} onClick={() => router.push('/personal-center/transfer')}>

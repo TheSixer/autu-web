@@ -25,7 +25,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useThrottleFn } from 'ahooks';
-import { createOrder } from '@/services';
+import { createOrder, getPolicy, getImgUrl } from '@/services';
 import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
 
@@ -164,8 +164,6 @@ const NumericFormatUSD = forwardRef(function NumericFormatCustom(
 const HomePage = ({ rate }) => {
   const [loading, setLoading] = useState(false);
   const [tips, setTips] = useState(false);
-  const [leverageInCents, setLeverageInCents] = useState(100);
-  const [depositCurrency, setDepositCurrency] = useState('USD');
   const [userPayImg, setUserPayImg] = useState('');
   const [amount, setAmount] = useState('');
   const [channel, setChannel] = useState('1012');
@@ -183,9 +181,13 @@ const HomePage = ({ rate }) => {
       amount: amount * 100,
       channel: channel === '1012' ? '1012' : '',
       userPayImg
-    }).then(({code}) => {
+    }).then(({code, data}) => {
       if (!code) {
-        toast.success('账户创建成功');
+        if (channel === '1012') {
+          window.open(data, '_blank ');
+        } else {
+          toast.success('支付订单创建成功');
+        }
         setTips(true)
       }
       setLoading(false);
@@ -200,10 +202,44 @@ const HomePage = ({ rate }) => {
     }
   }
 
+  const onFileChange = (file) => {
+    getPolicy().then(({code, data}) => {
+      if (!code) {
+        uploadImg(data, file)
+      }
+    })
+  }
+
+  const uploadImg = (params, file) => {
+    const formdata = new FormData();
+    formdata.append('OSSAccessKeyId', params.accessid);
+    formdata.append('key', params.dir + '/' + file.name);
+    formdata.append('success_action_status', '200');
+    formdata.append('policy', params.policy);
+    formdata.append('signature', params.signature);
+    formdata.append('file', file);
+
+    fetch(params.host, {
+      method: 'POST',
+      body: formdata
+    }).then(() => {
+      fetchImg(`${params.dir}/${file.name}`);
+    })
+  }
+
+  const fetchImg = async (url) => {
+    getImgUrl(url).then(({code, data}) => {
+      if (!code) {
+        setUserPayImg(data);
+      }
+    });
+  }
+
   useEffect(() => {
     setPayType(null);
     setAmount('');
-  }, [channel])
+    setUserPayImg('')
+  }, [channel, tips])
 
   return (
     <Layout>
@@ -270,16 +306,40 @@ const HomePage = ({ rate }) => {
                 channel === 'internationalTransfer' ? (
                   <Card sx={{ my: 2 }} variant="outlined">
                     <CardContent sx={{p: 4}}>
-                      <h4>收款银行信息</h4>
-                      <p>收款银行名称：Pacific Private Bank</p>
-                      <p>收款银行地址：1st floor, Govant Building, 278 Kumul Hwy, Port Vila</p>
-                      <p>SWIFT：PPBLVUVUXXX</p>
-                      <h4>收款人信息</h4>
-                      <p>收款人名称： Autu Securities International Inc. – Client Account</p>
-                      <p>收款人账号： 6550-1-80008</p>
-                      <p>收款人货币： USD</p>
-                      <p>收款人地址： Law Partners House, Po Box 212, Port Vila, Vanuatu</p>
-                      <p>备注： 你的名字的拼音</p>
+                      <h4 className='mb-2 text-base font-semibold'>收款银行信息</h4>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款银行名称：</p>
+                        <p className='text-base flex-shrink-0'>Pacific Private Bank</p>
+                      </div>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款银行地址：</p>
+                        <p className='text-base break-words'>1st floor, Govant Building, 278 Kumul Hwy, Port Vila</p>
+                      </div>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>SWIFT：</p>
+                        <p className='text-base break-words'>PPBLVUVUXXX</p>
+                      </div>
+                      <h4 className='my-2 text-base font-semibold'>收款人信息</h4>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款人名称： </p>
+                        <p className='text-base break-words'>Autu Securities International Inc. – Client Account</p>
+                      </div>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款人账号： </p>
+                        <p className='text-base break-words'>6550-1-80008</p>
+                      </div>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款人货币： </p>
+                        <p className='text-base break-words'>USD</p>
+                      </div>
+                      <div className='flex mb-1'>
+                        <p className='text-base flex-shrink-0 w-32'>收款人地址： </p>
+                        <p className='text-base break-words'>Law Partners House, Po Box 212, Port Vila, Vanuatu</p>
+                      </div>
+                      <div className='flex'>
+                        <p className='text-base flex-shrink-0 w-32'>备注： </p>
+                        <p className='text-base break-words'>你的名字的拼音</p>
+                      </div>
                     </CardContent>
                   </Card>
                 ) : null
@@ -300,9 +360,24 @@ const HomePage = ({ rate }) => {
                     </Stack>
                     {
                       payType ? (
-                        <Card sx={{ width: 280, my: 2 }} variant="outlined">
+                        <Card sx={{ width: 520, my: 2 }} variant="outlined">
                           <CardContent>
-                            <img width={240} src={payType.barcode} />
+                            <h4 className='mb-4 text-base font-semibold'>收款信息</h4>
+                            <div className='flex'>
+                              <p className='text-base flex-shrink-0 w-24'>数字货币 </p>
+                              <p className='text-base break-words'>{payType.name}</p>
+                            </div>
+                            <div className='flex my-2'>
+                              <p className='text-base flex-shrink-0 w-24'>钱包地址 </p>
+                              <p className='text-base break-words'>{ payType.payName }</p>
+                            </div>
+                            <div className='flex'>
+                              <p className='text-base flex-shrink-0 w-24'>二维码 </p>
+                              <p className='text-base break-words'>
+                                <img width={180} src={payType.barcode} />
+                              </p>
+                            </div>
+                            <p className='mt-4 text-base text-gray-500'>*提示：请选择与收款地址一致的网络进行充值，否则您将会遗失这笔资金。</p>
                           </CardContent>
                         </Card>
                       ) : null
@@ -310,20 +385,24 @@ const HomePage = ({ rate }) => {
                   </>
                 ) : null
               }
-              <Box>
-                <p className='my-2 text-base text-gray-500'>上传支付凭证</p>
-                <IconButton className='w-72 h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
-                  <input hidden accept="image/*" type="file" onChange={e => onChange(e.target.files[0], 0)} />
-                  {!userPayImg && <PhotoCamera fontSize='large' />}
-                  {userPayImg && <img className='w-full h-full' src={userPayImg} />}
-                </IconButton>
-              </Box>
+              {
+                channel !== '1012' ? (
+                  <Box>
+                    <p className='my-2 text-base text-gray-500'>上传支付凭证</p>
+                    <IconButton className='w-72 h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
+                      <input hidden accept="image/*" type="file" onChange={e => onFileChange(e.target.files[0])} />
+                      {!userPayImg && <PhotoCamera fontSize='large' />}
+                      {userPayImg && <img className='w-full h-full' src={userPayImg} />}
+                    </IconButton>
+                  </Box>
+                ) : null
+              }
 
               <LoadingButton
-                className={`mt-12 ${ !loading ? 'bg-blue-900' : ''}`}
+                className={`${ !loading ? 'bg-blue-900' : ''}`}
                 loading={loading}
                 disabled={!amount || (!payType && channel === 'digitalCurrency')}
-                sx={{ py: 1.5, borderRadius: 6, width: 350 }}
+                sx={{ mt: 4, py: 1.5, borderRadius: 6, width: 350 }}
                 variant="contained"
                 onClick={handleSubmit}
                 fullWidth>
