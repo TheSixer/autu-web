@@ -10,6 +10,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+// import {useSession} from "next-auth/react";
+// import Tooltip from '@mui/material/Tooltip';
+
 import "highlight.js/styles/monokai-sublime.css";
 import { cloneDeep, set } from 'lodash';
 let md = require('markdown-it')({
@@ -22,6 +25,7 @@ let evtSource = null;
 
 const Home = () => {
   // const [index, setIndex] = useState(0);
+  // const { data: session } = useSession();
   const [questions, setQuestions] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [value, useValue] = useState('');
@@ -208,6 +212,24 @@ const Home = () => {
       </article>
       <div className={'btnGroup'}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
+        
+          {/* {
+            !session?.user ? (
+              <>
+                <Tooltip title="请先登录" placement="bottom-start">
+                  <Button className="bg-yellow-500" sx={{ width: 120, mr: 4 }} variant="contained" color="warning">提交</Button>
+                </Tooltip>
+                <Tooltip title="请先登录" placement="bottom-start">
+                  <Button variant="outlined" color="error" style={{ marginRight: '24px' }}>清空</Button>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                <Button disabled={isLoading} className="bg-yellow-500" sx={{ width: 120, mr: 4 }} variant="contained" color="warning" onClick={submit}>提交</Button>
+                <Button disabled={isLoading} variant="outlined" color="error" onClick={clear} style={{ marginRight: '24px' }}>清空</Button>
+              </>
+            )
+          } */}
           <Button disabled={isLoading} className="bg-yellow-500" sx={{ width: 120, mr: 4 }} variant="contained" color="warning" onClick={submit}>提交</Button>
           <Button disabled={isLoading} variant="outlined" color="error" onClick={clear} style={{ marginRight: '24px' }}>清空</Button>
         </div>

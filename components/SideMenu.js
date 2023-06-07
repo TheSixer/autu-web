@@ -44,6 +44,7 @@ const SideMenu = (props) => {
   const live = intl.formatMessage({ id: "head.menu.live" });
   const news = intl.formatMessage({ id: "head.menu.news" });
   const about = intl.formatMessage({ id: "head.menu.about" });
+  const ai = intl.formatMessage({ id: "head.menu.ai" });
 
   const walletTxt = intl.formatMessage({ id: "mine.index.personal.wallet" });
   const myAccount = intl.formatMessage({ id: "mine.account" });
@@ -129,11 +130,11 @@ const SideMenu = (props) => {
           </ListItemButton>
         </ListItem>
         <ListItem>
-          <ListItemButton onClick={() => router.push('/news')}>
+          <ListItemButton onClick={() => router.push('/ai')}>
             <ListItemIcon>
               <Newspaper sx={{ color: 'black' }} />
             </ListItemIcon>
-            <ListItemText primary={news} />
+            <ListItemText primary={ai} />
           </ListItemButton>
         </ListItem>
         <ListItem>

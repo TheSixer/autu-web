@@ -20,7 +20,8 @@ const NavLinks = () => {
   const live = intl.formatMessage({ id: "head.menu.live" });
   const news = intl.formatMessage({ id: "head.menu.news" });
   const about = intl.formatMessage({ id: "head.menu.about" });
-
+  const ai = intl.formatMessage({ id: "head.menu.ai" });
+  
   const navigate = (locale) => {
     window.location.href = `${window.location.origin}${locale === 'zh' ? '/zh' : ''}/${pathname}`;
   };
@@ -47,9 +48,9 @@ const NavLinks = () => {
           {live}
         </Link>
       </li>
-      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/news' ? 'active' : ''}`}>
-        <Link prefetch={false} href="/news">
-          {news}
+      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/ai' ? 'active' : ''}`}>
+        <Link prefetch={false} href="/ai">
+          {ai}
         </Link>
       </li>
       <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/about' ? 'active' : ''}`}>
