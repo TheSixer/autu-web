@@ -172,7 +172,7 @@ const Home = () => {
                             <ListItemText
                               primary="ChatGPT："
                               secondary={
-                                <React.Fragment>
+                                <Fragment>
                                   <Typography
                                     sx={{ display: 'inline' }}
                                     component="span"
@@ -183,7 +183,7 @@ const Home = () => {
                                       __html: messageList[index].content
                                     }}></p>
                                   </Typography>
-                                </React.Fragment>
+                                </Fragment>
                               }
                             />
                           </ListItem>
