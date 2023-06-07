@@ -79,7 +79,7 @@ const Home = () => {
         if (!data.message) {
           return
         }
-
+        console.log(data.message)
         // customer.current.style.display = 'block'
         // gptList.current.style.display = 'block'
         text = text + data.message
