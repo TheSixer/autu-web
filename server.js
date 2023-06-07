@@ -10,6 +10,13 @@ const devProxy = {
       '^/web': '/autu-api'
     },
     changeOrigin: true
+  },
+  '/gpt': {
+    target: 'http://52.62.33.46', // 端口自己配置合适的
+    pathRewrite: {
+      '^/gpt': '/autu-api'
+    },
+    changeOrigin: true
   }
 }
 const hostname = 'localhost'

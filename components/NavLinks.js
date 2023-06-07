@@ -27,8 +27,8 @@ const NavLinks = () => {
 
   return (
     <ul className="main-nav__navigation-box">
-      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/' ? 'active' : ''}`}>
-        <Link prefetch={false} href="/">
+      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/home' ? 'active' : ''}`}>
+        <Link prefetch={false} href="/home">
           {home}
         </Link>
       </li>

@@ -10,17 +10,22 @@ import Home from '@mui/icons-material/Home';
 import Handyman from '@mui/icons-material/Handyman';
 import LiveTv from '@mui/icons-material/LiveTv';
 import Newspaper from '@mui/icons-material/Newspaper';
+import WalletIcon from '@mui/icons-material/Wallet';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import GroupIcon from '@mui/icons-material/Group';
 import Info from '@mui/icons-material/Info';
 import Storefront from '@mui/icons-material/Storefront';
 import Translate from '@mui/icons-material/Translate';
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useRouter } from "next/router";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import {signOut} from "next-auth/react"
 
 const SideMenu = (props) => {
+  const { isLogin } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -40,6 +45,10 @@ const SideMenu = (props) => {
   const news = intl.formatMessage({ id: "head.menu.news" });
   const about = intl.formatMessage({ id: "head.menu.about" });
 
+  const walletTxt = intl.formatMessage({ id: "mine.index.personal.wallet" });
+  const myAccount = intl.formatMessage({ id: "mine.account" });
+  const auditRecords = intl.formatMessage({ id: "audit.records" });
+
   const navigate = (locale) => {
     window.location.href = `${window.location.origin}${locale === 'zh' ? '/zh' : ''}/${pathname}`;
   };
@@ -50,14 +59,45 @@ const SideMenu = (props) => {
       role="presentation"
       onKeyDown={props.toggleDrawer}
     >
-      <Stack direction="row" spacing={2} sx={{ px:4, py: 2 }}>
-        <Button variant="contained" color="warning" onClick={() => router.push('/login')}>登录</Button>
-        <Button variant="outlined" color="warning" onClick={() => router.push('/register')}>注册</Button>
-      </Stack>
+      {
+        isLogin ? (
+          <List>
+            <ListItem>
+              <ListItemButton onClick={() => router.push('/personal-center')}>
+                <ListItemIcon>
+                  <WalletIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary={walletTxt} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => router.push('/personal-center/accounts')}>
+                <ListItemIcon>
+                  <GroupIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary={myAccount} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton onClick={() => router.push('/personal-center/approval-records')}>
+                <ListItemIcon>
+                  <VerifiedUserIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary={auditRecords} />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        ) : (
+          <Stack direction="row" spacing={2} sx={{ px:4, py: 2 }}>
+            <Button className='bg-orange-400' variant="contained" color="warning" onClick={() => (window.location.href = 'https://backend.autu.finance/login')}>登录</Button>
+            <Button variant="outlined" color="warning" onClick={() => (window.location.href = 'https://backend.autu.finance/register/trader')}>注册</Button>
+          </Stack>
+        )
+      }
       <Divider />
       <List>
         <ListItem>
-          <ListItemButton onClick={() => router.push('/')}>
+          <ListItemButton onClick={() => router.push('/home')}>
             <ListItemIcon>
               <Home sx={{ color: 'black' }} />
             </ListItemIcon>
@@ -131,6 +171,22 @@ const SideMenu = (props) => {
           </MenuItem>
           ))}
       </Menu>
+      {
+        isLogin ? (
+          <>
+            <Divider />
+            <List>
+              <ListItem>
+                <ListItemButton>
+                  <Button variant="outlined" color="warning" onClick={signOut}>
+                    <FormattedMessage id="head.menu.signOut" />
+                  </Button>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </>
+        ) : null
+      }
     </Box>
   );
 }

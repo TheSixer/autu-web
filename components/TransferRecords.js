@@ -173,7 +173,7 @@ export default function EnhancedTable() {
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar onSearch={stat => setStatus(stat === '0' ? '' : stat)} />
-        <TableContainer>
+        <TableContainer className='max-w-screen'>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"

@@ -222,7 +222,7 @@ const Footer = () => {
           </div>
           <div className="container text-center">
             <div className="site-footer__bottom-links">
-              <a href="/"><FormattedMessage id="footer.list.agreement" /></a>
+              <a href="/conditions"><FormattedMessage id="footer.list.agreement" /></a>
               <a href="/"><FormattedMessage id="footer.list.risk" /></a>
               <a href="/"><FormattedMessage id="footer.list.amlAndCtf" /></a>
               <a href="/privacypolicy"><FormattedMessage id="footer.list.policy.agreement" /></a>

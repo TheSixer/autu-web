@@ -63,7 +63,7 @@ html::-webkit-scrollbar-track {
 
 body {
   /* font-family: var(--thm-font); */
-  font-family: MicrosoftYaHei;
+  font-family: Arial, MicrosoftYaHei;
   color: #737789;
   font-size: 18px;
   line-height: 36px;
@@ -367,7 +367,7 @@ button {
     #849197 100%
   );
   position: fixed;
-  bottom: 40px;
+  bottom: 70px;
   right: 40px;
   z-index: 99;
   text-align: center;

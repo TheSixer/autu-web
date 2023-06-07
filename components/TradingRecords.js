@@ -156,6 +156,7 @@ export default function EnhancedTable() {
   const passedTxt = intl.formatMessage({ id: "mine.index.personal.passed" });
   const rejectedTxt = intl.formatMessage({ id: "mine.index.personal.rejected" });
   const thirdPayTxt = intl.formatMessage({ id: "mine.index.recharge.thirdPay" });
+  const cardPayTxt = intl.formatMessage({ id: "mine.index.recharge.cardPay" });
   const digitalCurrencyTxt = intl.formatMessage({ id: "mine.index.recharge.digitalCurrency" });
   const tnternationalWire = intl.formatMessage({ id: "mine.index.recharge.tnternationalWire" });
   const noRchargeRecords = intl.formatMessage({ id: "audit.no.recharge.records" });
@@ -220,8 +221,8 @@ export default function EnhancedTable() {
                     // sx={{ cursor: 'pointer' }}
                   >
                     <TableCell align="left">{row.orderCode}</TableCell>
-                    <TableCell align="left">{row.type === 'thirdPay' ? '¥' : '$'}{(Math.floor(row.amount * 100) / 10000) }</TableCell>
-                    <TableCell align="left">{row.type === 'thirdPay' ? thirdPayTxt : row.type === 'digitalCurrency' ? digitalCurrencyTxt : tnternationalWire}</TableCell>
+                    <TableCell align="left">{row.type === 'thirdPay' || row.type === 'cardPay' ? '¥' : '$'}{(Math.floor(row.amount * 100) / 10000) }</TableCell>
+                    <TableCell align="left">{row.type === 'thirdPay' ? thirdPayTxt : row.type === 'cardPay' ? cardPayTxt : row.type === 'digitalCurrency' ? digitalCurrencyTxt : tnternationalWire}</TableCell>
                     <TableCell align="left">{row.createTime}</TableCell>
                     <TableCell align="left">{row.auditTime || '-'}</TableCell>
                     <TableCell align="right">

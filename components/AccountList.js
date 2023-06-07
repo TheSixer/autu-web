@@ -153,10 +153,10 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
   const outSuccessTxt = intl.formatMessage({ id: "account.transfer.out.success" });
   const noBalanceTxt = intl.formatMessage({ id: "account.no.balance" });
   const noAccountsTxt = intl.formatMessage({ id: "account.no.accounts" });
-  const fundTxt = intl.formatMessage({ id: "account.no.fund" });
-  const withdrawTxt = intl.formatMessage({ id: "account.no.withdraw" });
+  const fundTxt = intl.formatMessage({ id: "account.fund" });
+  const withdrawTxt = intl.formatMessage({ id: "account.withdraw" });
   const transferIn = intl.formatMessage({ id: "account.transfer.in" });
-  const transferOut = intl.formatMessage({ id: "account.transfer.in" });
+  const transferOut = intl.formatMessage({ id: "account.transfer.out" });
   const amountTxt = intl.formatMessage({ id: "mine.index.personal.amount" });
   const confirmTxt = intl.formatMessage({ id: "confirm" });
   const cancelTxt = intl.formatMessage({ id: "cancel" });
@@ -339,7 +339,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
         <DialogContent>
           <Stack sx={{ width: 320, p: 2 }} spacing={2}>
             <TextField
-              label={`${type ? transferOut : transferIn} ${amountTxt}（${currentRow?.depositCurrency}）`}
+              label={`${type ? transferOut : transferIn}${amountTxt}（${currentRow?.depositCurrency}）`}
               value={amount}
               onChange={e => setAmount(e.target.value)}
               InputProps={{
@@ -368,7 +368,7 @@ export default function EnhancedTable({balance, rate, onUpdate}) {
             loading={loading}
             disabled={loading || !amount}
           >
-            <span>{confirmTxt} {type ? transferOut : transferIn}</span>
+            <span>{confirmTxt}{type ? transferOut : transferIn}</span>
           </LoadingButton>
         </DialogActions>
       </Dialog>

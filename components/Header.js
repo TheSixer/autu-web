@@ -74,10 +74,10 @@ const HeaderHome = (props) => {
           {
             !session?.user ? (
               <>
-                <Link href="/register" className={`thm-btn ${props.btnClass} active`}>
+                <Link href="https://backend.autu.finance/register/trader" className={`thm-btn ${props.btnClass} active`}>
                   <span><FormattedMessage id="head.menu.newAccount" /></span>
                 </Link>
-                <Link href="/login" className={`thm-btn ${props.btnClass}`}>
+                <Link href="https://backend.autu.finance/login" className={`thm-btn ${props.btnClass}`}>
                   <span><FormattedMessage id="head.menu.signIn" /></span>
                 </Link>
               </>
@@ -118,7 +118,7 @@ const HeaderHome = (props) => {
         open={isShowDrawer}
         onClose={toggleDrawer}
       >
-        <SideMenu toggleDrawer={toggleDrawer} />
+        <SideMenu isLogin={!!session?.user} toggleDrawer={toggleDrawer} />
       </Drawer>
     </header>
   );

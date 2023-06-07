@@ -18,9 +18,9 @@ export default function (props) {
           extraClassName="site-header-one__fixed-top white-thime"
         />
         <MobileMenu />
-        <div className="flex space-x-4">
+        <div className="flex space-x-0 sm:space-x-4">
           <PersonalCenterMenu />
-          <div className="flex-1" style={{paddingTop: '76px'}}>
+          <div className="flex-1 w-full" style={{paddingTop: '76px'}}>
             {props.children}
           </div>
         </div>

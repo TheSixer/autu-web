@@ -41,7 +41,7 @@ const Testimonials = (props) => {
                   <FormattedMessage id="home.action.txt05" />
                 </p>
               </div>
-              <a href="/personal-center" className={`thm-btn main-nav__btn active`}>
+              <a href="https://backend.autu.finance/login" className={`thm-btn main-nav__btn active`}>
                 <span>
                   <FormattedMessage id="head.menu.newAccount" />
                 </span>

@@ -192,7 +192,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate, accounts }) =
   return (
     <Layout>
   
-      <div className="container py-4">
+      <div className="container py-4 pb-8">
         <Collapse in={open}>
           <Alert
             severity="warning"
@@ -251,7 +251,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate, accounts }) =
           </CardContent>
         </Card>
 
-        <Accordion sx={{ mt: 4 }} onChange={(e, value) => setExpand(value)}>
+        <Accordion sx={{ my: 4, width: '100%' }} onChange={(e, value) => setExpand(value)}>
           <AccordionSummary
             aria-controls="panel1a-content"
             id="panel1a-header"
@@ -261,7 +261,7 @@ const HomePage = ({ balance, userName, ctid, completeVerify, rate, accounts }) =
               <img className="w-4 h-4" src="/assets/images/arrow.png" />
             </Stack>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{ width: '100%' }}>
             {expand && <TransferRecords />}
           </AccordionDetails>
         </Accordion>

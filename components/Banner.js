@@ -29,8 +29,13 @@ const AppScreen = () => {
         <p className="text text-center font-semibold sub-title left-8 top-2/3 md:left-1/3 text-xl sm:text-2xl wow fadeIn">
           <FormattedMessage id="home.first.banner.centerTxt" />
         </p>
-        <p className="text text-center break-normal font-semibold other-title left-8 top-3/4 md:left-1/2 text-xl sm:text-2xl wow fadeIn">
+        <p className="flex flex-col items-center text text-center break-normal font-semibold other-title left-8 top-3/4 md:left-1/2 text-xl sm:text-2xl wow fadeIn">
           <FormattedMessage id="home.first.banner.otherTxt" />
+          <a href="https://backend.autu.finance/login" className={`m-2 thm-btn main-nav__btn active`}>
+            <span>
+              <FormattedMessage id="head.menu.newAccount" />
+            </span>
+          </a>
         </p>
       </div>
       <div className="item swiper-home-item bg-cover second" style={{ backgroundImage: `url(/assets/images/banner02@2x.jpg)` }}>

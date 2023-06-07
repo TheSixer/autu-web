@@ -43,6 +43,7 @@ export default function Document(props) {
           href="/assets/css/responsive.css"
           rel="stylesheet"
         />
+        <script type='text/javascript' src='/assets/js/service.js' />
       </Head>
       <body>
         <Main />

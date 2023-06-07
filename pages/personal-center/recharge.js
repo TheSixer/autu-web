@@ -167,7 +167,7 @@ const HomePage = ({ rate }) => {
   const [tips, setTips] = useState(false);
   const [userPayImg, setUserPayImg] = useState('');
   const [amount, setAmount] = useState('');
-  const [channel, setChannel] = useState('1012');
+  const [channel, setChannel] = useState('cardPay');
   const [payType, setPayType] = useState(null);
   const router = useRouter();
   const intl = useIntl();
@@ -184,14 +184,15 @@ const HomePage = ({ rate }) => {
   } = useThrottleFn(() => {
     setLoading(true);
     createOrder({
-      type: channel === '1012' ? 'thirdPay' : channel,
+      // type: channel === '1012' ? 'cardPay' : channel,
+      type: channel,
       amount: amount * 100,
-      channel: channel === '1012' ? '1012' : '',
+      // channel: channel === '1012' ? '1012' : '',
       userPayImg
     }).then(({code, data}) => {
       if (!code) {
-        if (channel === '1012') {
-          window.open(data, '_blank ');
+        if (channel === 'cardPay') {
+          window.open(`${process.env.NEXT_PUBLIC_PAY_URL}?amount=${amount}&rate=${usdCurrency?.rate}`, '_blank ');
         } else {
           toast.success(orderCreatedTxt);
         }
@@ -201,13 +202,13 @@ const HomePage = ({ rate }) => {
     });
   });
 
-  const handleSubmit = () => {
-    if (channel === '1012') {
-      handleConfirm();
-    } else {
-      handleConfirm();
-    }
-  }
+  // const handleSubmit = () => {
+  //   if (channel === '1012') {
+  //     handleConfirm();
+  //   } else {
+  //     handleConfirm();
+  //   }
+  // }
 
   const onFileChange = (file) => {
     getPolicy().then(({code, data}) => {
@@ -258,11 +259,11 @@ const HomePage = ({ rate }) => {
             <span><FormattedMessage id='head.menu.back' /></span>
           </Link>
         </div>
-        <Paper sx={{maxWidth: 850, mx: 'auto', p: 4}}>
+        <Paper sx={{maxWidth: 850, mx: 'auto', p: 2}} className="sm:p-8">
 
           <h4 className='mb-4 text-black font-semibold'><FormattedMessage id='mine.index.personal.recharge' /></h4>
           
-          <div className='px-32'>
+          <Box className='sm:px-32'>
             <Stack direction="column">
               <FormControl>
                 <FormLabel id="demo-radio-buttons-group-label"><FormattedMessage id='mine.index.recharge.payType' /></FormLabel>
@@ -273,16 +274,17 @@ const HomePage = ({ rate }) => {
                   onChange={e => setChannel(e.target.value)}
                   name="radio-buttons-group"
                 >
-                  <FormControlLabel value="1012" control={<Radio />} label={<VisaIcon />} />
+                  <FormControlLabel value="cardPay" control={<Radio />} label={<VisaIcon />} />
+                  {/* <FormControlLabel value="1012" control={<Radio />} label={<VisaIcon />} /> */}
                   {/* <FormControlLabel value="1013" control={<Radio />} label={<VisaIcon />} /> */}
                   <FormControlLabel value="internationalTransfer" control={<Radio />} label={<USDTHelpIcon />} />
                   <FormControlLabel value="digitalCurrency" control={<Radio />} label={<USDTIcon />} />
                 </RadioGroup>
               </FormControl>
               {
-                channel === '1012' ? (
+                channel === 'cardPay' ? (
                   <TextField
-                    sx={{my: 2, width: 350 }}
+                    sx={{my: 2, maxWidth: 350 }}
                     error={!!amount && amount < 100}
                     label={rmbAmount}
                     name="numberformat"
@@ -298,7 +300,7 @@ const HomePage = ({ rate }) => {
               }
 
               <TextField
-                sx={{mt: 2, width: 350}}
+                sx={{mt: 2, maxWidth: 350}}
                 label={usdAmount}
                 name="numberformat"
                 value={channel === 'internationalTransfer' || channel === 'digitalCurrency' ? amount : usdCurrency ? (Math.floor(amount / usdCurrency?.rate * 100) / 100) : 0}
@@ -306,17 +308,17 @@ const HomePage = ({ rate }) => {
                 InputProps={{
                   inputComponent: NumericFormatUSD,
                 }}
-                disabled={channel === '1012'}
+                disabled={channel === 'cardPay'}
                 fullWidth
               />
               {
                 channel === 'internationalTransfer' ? (
                   <Card sx={{ my: 2 }} variant="outlined">
-                    <CardContent sx={{p: 4}}>
+                    <CardContent sx={{p: 2}}>
                       <h4 className='mb-2 text-base font-semibold'><FormattedMessage id='mine.index.recharge.bankInfo' /></h4>
                       <div className='flex mb-1'>
                         <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.bankName' /></p>
-                        <p className='text-base flex-shrink-0'>Pacific Private Bank</p>
+                        <p className='text-base break-words'>Pacific Private Bank</p>
                       </div>
                       <div className='flex mb-1'>
                         <p className='text-base flex-shrink-0 w-32'><FormattedMessage id='mine.index.recharge.backAddress' /></p>
@@ -358,7 +360,7 @@ const HomePage = ({ rate }) => {
                     <Stack direction="row" flexWrap="wrap">
                       {
                         types.map((opt) => (
-                          <Button variant={ payType?.name === opt.name ? 'contained' : 'outlined'} sx={{m: 1}} color="warning" key={opt.name} onClick={() => setPayType(opt)}>
+                          <Button className={payType?.name === opt.name ? 'bg-yellow-500' : ''} variant={ payType?.name === opt.name ? 'contained' : 'outlined'} sx={{m: 1}} color="warning" key={opt.name} onClick={() => setPayType(opt)}>
                             { opt.name }
                           </Button>
                         ))
@@ -367,7 +369,7 @@ const HomePage = ({ rate }) => {
                     </Stack>
                     {
                       payType ? (
-                        <Card sx={{ width: 520, my: 2 }} variant="outlined">
+                        <Card sx={{ maxWidth: 520, my: 2 }} variant="outlined">
                           <CardContent>
                             <h4 className='mb-4 text-base font-semibold'><FormattedMessage id='mine.index.recharge.billingInfo' /></h4>
                             <div className='flex'>
@@ -376,7 +378,7 @@ const HomePage = ({ rate }) => {
                             </div>
                             <div className='flex my-2'>
                               <p className='text-base flex-shrink-0 w-24'><FormattedMessage id='mine.index.recharge.walletAddress' /></p>
-                              <p className='text-base break-words'>{ payType.payName }</p>
+                              <p className='text-base break-all'>{ payType.payName }</p>
                             </div>
                             <div className='flex'>
                               <p className='text-base flex-shrink-0 w-24'><FormattedMessage id='mine.index.recharge.barcode' /></p>
@@ -393,10 +395,10 @@ const HomePage = ({ rate }) => {
                 ) : null
               }
               {
-                channel !== '1012' ? (
+                channel !== 'cardPay' ? (
                   <Box>
                     <p className='my-2 text-base text-gray-500'><FormattedMessage id='mine.index.recharge.uploadPaymentVoucher' /></p>
-                    <IconButton className='w-72 h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
+                    <IconButton className='w-64 h-36 border border-gray-400 bg-gray-100' aria-label="upload picture" sx={{borderRadius: '10px'}} component="label">
                       <input hidden accept="image/*" type="file" onChange={e => onFileChange(e.target.files[0])} />
                       {!userPayImg && <PhotoCamera fontSize='large' />}
                       {userPayImg && <img className='w-full h-full' src={userPayImg} />}
@@ -409,14 +411,14 @@ const HomePage = ({ rate }) => {
                 className={`${ !loading ? 'bg-blue-900' : ''}`}
                 loading={loading}
                 disabled={!amount || (!payType && channel === 'digitalCurrency')}
-                sx={{ mt: 4, py: 1.5, borderRadius: 6, width: 350 }}
+                sx={{ mt: 4, py: 1.5, borderRadius: 6, maxWidth: 350 }}
                 variant="contained"
-                onClick={handleSubmit}
+                onClick={handleConfirm}
                 fullWidth>
                 <FormattedMessage id='mine.index.submit' />
               </LoadingButton>
             </Stack>
-          </div>
+          </Box>
         </Paper>
       </div>
 
