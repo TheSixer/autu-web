@@ -40,10 +40,10 @@ const Layout = (props) => {
         <meta property="og:description" content="提供便捷的全球金融资产投资通道，可在线交易港美股、股指、期货、黄金、原油、加密资产CFD和货币对等" /> 
         <meta property="og:image" content="https://www.autu.finance/assets/images/banner01@2x.jpg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" itemProp="description" content="提供便捷的全球金融资产投资通道，可在线交易港美股、股指、期货、黄金、原油、加密资产CFD和货币对等" />
-        <meta itemProp="name" content="Autu Securities | 澳图证券：智能化时代全球领先的互联网券商" />
+        <meta name="description" itemprop="description" content="提供便捷的全球金融资产投资通道，可在线交易港美股、股指、期货、黄金、原油、加密资产CFD和货币对等" />
+        <meta itemprop="name" content="Autu Securities | 澳图证券：智能化时代全球领先的互联网券商" />
         <meta name="keywords" content="美股,港股,中概股,期货,股指,加密货币,外汇,衍生品,黄金,原油,澳图证券,澳图,autu,autu securities, 澳图期货" />
-        <meta itemProp="image" content="https://www.autu.finance/assets/images/banner01@2x.jpg"></meta>
+        <meta itemprop="image" content="https://www.autu.finance/assets/images/banner01@2x.jpg"></meta>
         {/* {
           process.env.NODE_ENV === 'production' ? (
             <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
