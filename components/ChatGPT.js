@@ -24,8 +24,6 @@ let md = require('markdown-it')({
 let evtSource = null;
 
 const Home = () => {
-  // const [index, setIndex] = useState(0);
-  // const { data: session } = useSession();
   const [questions, setQuestions] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [value, useValue] = useState('');
@@ -43,19 +41,10 @@ const Home = () => {
   };
 
   const submit = async () => {
-    // my.current.style.display = 'none'
-    // customer.current.style.display = 'none'
-    // userList.current.style.display = 'none'
-    // gptList.current.style.display = 'none'
     if (!value) {
       return
     }
-    // userList.current.innerHTML = ''
-    // gptList.current.innerHTML = ''
     useLoding(true)
-    // my.current.style.display = 'block'
-    // userList.current.style.display = 'block'
-    // userList.current.innerHTML = textarea.current.value.trim()
     setQuestions([...questions, value.trim()])
     useValue('')
     scrollToBottom();
@@ -79,18 +68,13 @@ const Home = () => {
         if (!data.message) {
           return
         }
-        console.log(data.message)
-        // customer.current.style.display = 'block'
-        // gptList.current.style.display = 'block'
         text = text + data.message
-        // gptList.current.innerHTML = md.render(text);
         const crt = {
           role: 1,
           content: md.render(text),
         }
         const list = cloneDeep(messageList);
         list[index.current] = crt;
-        // console.log(index.current, list);
         setMessageList(list);
         scrollToBottom();
       } catch (e) {
@@ -122,7 +106,7 @@ const Home = () => {
 
 
 	return (
-		<section className="max-w-screen-xl mx-auto py-6">
+		<section className="max-w-screen-xl mx-auto p-6">
 
       <Typography
         variant="h5"
