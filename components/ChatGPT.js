@@ -151,7 +151,7 @@ const Home = () => {
                         messageList[index] ? (
                           <ListItem alignItems="flex-start" key={`chat_${index}`}>
                             <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src="/assets/images/customer.png" />
+                              <Avatar alt="Cindy Baker" src="/assets/images/ai.jpeg" />
                             </ListItemAvatar>
                             <ListItemText
                               primary="ChatGPT："
