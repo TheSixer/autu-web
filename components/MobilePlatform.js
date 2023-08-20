@@ -26,7 +26,7 @@ const MobilePlatform = () => {
             <div className="futures-spot_stores wow fadeInDown">
               <a href="https://play.google.com/store/apps/details?id=com.spotware.ct" target="_blank"><img src="/assets/images/tools/google-play@2x.png" /></a>
               <a href="https://www.amazon.com/gp/product/B0BGHKXRSL/ref=mas_pm_ctrader" target="_blank"><img src="/assets/images/tools/amazon-store@2x.png" /></a>
-              <a href="https://apps.apple.com/cy/app/spotware-ctrader/id767428811" target="_blank"><img src="/assets/images/tools/app-store@2x.png" /></a>
+              <a href="https://apps.apple.com/cn/app/ctrader-cn/id6447500914" target="_blank"><img src="/assets/images/tools/app-store@2x.png" /></a>
             </div>
           </div>
           <div className="col-lg-10">

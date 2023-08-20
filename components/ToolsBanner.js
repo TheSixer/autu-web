@@ -28,7 +28,7 @@ const MarketBanner = (props) => {
                 <img src="/assets/images/tools/android@2x.png" />
                 <span><FormattedMessage id="tools.banner.android" /></span>
               </a>
-              <a href="https://apps.apple.com/cy/app/spotware-ctrader/id767428811" target="_blank" className="tools-banner-grid-item">
+              <a href="https://apps.apple.com/cn/app/ctrader-cn/id6447500914" target="_blank" className="tools-banner-grid-item">
                 <img src="/assets/images/tools/iphone@2x.png" />
                 <span><FormattedMessage id="tools.banner.ios" /></span>
               </a>
