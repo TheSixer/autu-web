@@ -638,7 +638,7 @@ button {
 --------------------------------------------------------------*/
 
 .site-header-one {
-  border-bottom: 1px solid rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .site-header-one__fixed-top {

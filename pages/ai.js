@@ -27,7 +27,7 @@ const HomePage = () => (
     <Layout pageTitle="Autu | Securities">
       <Header
         btnClass="main-nav__btn"
-        extraClassName="site-header-one__fixed-top"
+        extraClassName="site-header-one__fixed-top border-white"
       />
       <ChatGPT />
       <Footer />

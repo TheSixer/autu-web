@@ -17,6 +17,12 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import QuizIcon from '@mui/icons-material/Quiz';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import "highlight.js/styles/monokai-sublime.css";
 import { cloneDeep, set } from 'lodash';
@@ -45,16 +51,28 @@ let md = require('markdown-it')({
   }
 });
 
+const vipSolutions = [
+  '基于ctrader cBot的程序代码实现实现一个双均线策略',
+  '基于ctrader Automate 的自动交易程序代码实现菲阿里四价策略',
+  '基于ctrader cBot的程序代码实现布林线均值回归',
+  '基于ctrader Automate 的自动交易程序代码实现网格交易策略',
+  '基于ctrader Automate 的自动交易程序代码实现跨期套利策略',
+  '基于ctrader Automate 的自动交易程序代码实现跨品种套利策略',
+  '基于ctrader cBot的程序代码实现海龟交易法策略',
+  '基于ctrader Automate 的自动交易程序代码的Dual Thrust策略',
+  '基于ctrader cBot的程序代码实现R-Breaker策略',
+];
+
 const solutions = [
-  '帮我用代码实现一个经典网格策略',
-  '帮我用代码实现一个马丁格尔策略',
-  '用代码实现一个能卖在更高点的追踪卖出策略',
-  '我想要用代码实现一个使用布林带的策略',
-  '能帮我用代码实现抓区间突破的策略吗？',
-  '用代码帮我实现一个Ichimoku策略',
-  '我要用代码实现一个基于123法则进场的策略',
-  '我想用代码实现一个追涨的动量策略',
-  '我要用代码实现一个 RSI 超买超卖策略',
+  '帮我基于ctrader cBot的程序代码实现一个经典网格策略',
+  '基于ctrader cBot的程序代码帮我实现一个马丁格尔策略',
+  '用基于ctrader cBot的程序代码实现一个能卖在更高点的追踪卖出策略',
+  '我想要基于ctrader Automate 的自动交易程序代码实现一个使用布林带的策略',
+  '能帮我基于ctrader cBot的程序代码实现抓区间突破的策略吗？',
+  '用基于ctrader Automate 的自动交易程序代码帮我实现一个Ichimoku策略',
+  '基于ctrader cBot的程序代码实现一个基于123法则进场的策略',
+  '我想基于ctrader Automate 的自动交易程序代码实现一个追涨的动量策略',
+  '我要用基于ctrader cBot的程序代码实现一个 RSI 超买超卖策略',
 ];
 
 let evtSource = null;
@@ -67,6 +85,7 @@ const Home = () => {
   const [isLoading, useLoding] = useState(false);
   const chat = useRef(null);
   const index = useRef(0);
+  const [open, setOpen] = React.useState(false);
 
   const scrollToBottom = () => {
     if(chat.current.scrollHeight > chat.current.clientHeight){
@@ -143,33 +162,34 @@ const Home = () => {
 
 	return (
 		<section className="w-screen flex flex-row">
-      <div className='pt-24 pr-4 basis-1/6 bg-gray-950'>
+      <div className='pt-24 h-screen pr-4 basis-1/6 bg-gray-950 overflow-y-scroll'>
         <List>
           {
-            solutions.map((solute, index) => (
+            vipSolutions.map((solute, index) => (
               <>
                 <ListItem
-                  secondaryAction={
-                    <IconButton color="warning" size="small" sx={{ marginRight: '-16px'}} onClick={() => submit(solute)}>
-                      <SendIcon />
-                    </IconButton>
-                  }
+                  // secondaryAction={
+                  //   <IconButton color="warning" size="small" sx={{ marginRight: '-16px'}} onClick={() => submit(solute)}>
+                  //     <SendIcon />
+                  //   </IconButton>
+                  // }
                   key={'list_' + index}
                 >
                   <ListItemAvatar>
                     <Avatar sx={{ bgcolor: 'rgba(0,0,0,0)' }}>
-                      <QuizIcon />
+                      <QuizIcon color='warning' />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     secondary={
                       <Typography
-                        sx={{ display: 'inline' }}
+                        sx={{ display: 'inline', cursor: 'pointer' }}
                         component="span"
                         variant="body2"
                         color="white"
+                        onClick={() => setOpen(true)}
                       >
-                        <p>{solute}</p>
+                        <span className='hover:text-yellow-400 hover:underline'>{solute}</span>
                       </Typography>
                     }
                   />
@@ -191,7 +211,7 @@ const Home = () => {
                   solutions.map((solute, index) => (
                     <Grid xs={4} key={'solute_' + index}>
                       <Item variant="outlined" onClick={() => submit(solute)} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, cursor: 'pointer' }} className="hover:border-yellow-300">
-                        <span>{ solute }</span>
+                        <span className='text-base text-gray-900'>{ solute }</span>
                         <ArrowRightAltIcon />
                       </Item>
                     </Grid>
@@ -325,6 +345,28 @@ const Home = () => {
           </div>
         </div> */}
       </article>
+
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" className='text-black'>
+          {"登录提示"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <p className='text-gray-600'>获取策略源码需要登录账号，确认前往登录吗？</p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setOpen(false)}>暂不</Button>
+          <Button href='https://backend.autu.finance/login'>
+            立即登录
+          </Button>
+        </DialogActions>
+      </Dialog>
 		</section>
 	);
 };
