@@ -1,0 +1,17 @@
+.render__html p {
+    margin-bottom: 1.25rem;
+}
+
+.empty_view {
+  min-height: calc(100vh - 250px);
+}
+
+.render__html ol, .render__html ul, .render__html menu {
+  list-style: auto;
+  margin: auto;
+  padding: 0 40px;
+}
+
+.enter_view {
+  background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 13.94%,#fff 54.73%);
+}

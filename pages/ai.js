@@ -29,9 +29,7 @@ const HomePage = () => (
         btnClass="main-nav__btn"
         extraClassName="site-header-one__fixed-top"
       />
-      <div className="pt-24">
-        <ChatGPT />
-      </div>
+      <ChatGPT />
       <Footer />
     </Layout>
   </div>
