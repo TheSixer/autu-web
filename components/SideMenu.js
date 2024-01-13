@@ -90,8 +90,8 @@ const SideMenu = (props) => {
           </List>
         ) : (
           <Stack direction="row" spacing={2} sx={{ px:4, py: 2 }}>
-            <Button className='bg-orange-400' variant="contained" color="warning" onClick={() => (window.location.href = 'https://backend.autu.finance/login')}>登录</Button>
-            <Button variant="outlined" color="warning" onClick={() => (window.location.href = 'https://backend.autu.finance/register/trader')}>注册</Button>
+            <Button className='bg-orange-400' variant="contained" color="warning" onClick={() => (window.location.href = 'https://www.autubackend.com/login')}>登录</Button>
+            <Button variant="outlined" color="warning" onClick={() => (window.location.href = 'https://www.autubackend.com/register/trader')}>注册</Button>
           </Stack>
         )
       }
