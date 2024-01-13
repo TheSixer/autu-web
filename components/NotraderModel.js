@@ -29,7 +29,7 @@ const NotraderModel = (props) => {
                   <FormattedMessage id="home.stpModal.txt03" />
                 </p>
               </div>
-              <a href="https://backend.autu.finance/login" className={`thm-btn main-nav__btn active`}>
+              <a href="https://www.autubackend.com/login" className={`thm-btn main-nav__btn active`}>
                 <span>
                   <FormattedMessage id="head.menu.newAccount" />
                 </span>
