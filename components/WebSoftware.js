@@ -24,7 +24,7 @@ const WebSoftware = (props) => {
                 <img src="/assets/images/tools/software@2x.png" className="mx-auto max-w-full sm:w-96 md:w-full lg:w-2/3" alt="Awesome Image" />
               </div>
 
-              <a href="http://app.autu.finance" className={`thm-btn main-nav__btn active`}>
+              <a href="http://app.autu.finance" target="_blank" className={`thm-btn main-nav__btn active`}>
                 <span><FormattedMessage id="tools.section.enter" /></span>
               </a>
             </div>
