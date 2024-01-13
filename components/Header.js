@@ -74,10 +74,10 @@ const HeaderHome = (props) => {
           {
             !session?.user ? (
               <>
-                <Link href="https://backend.autu.finance/register/trader" className={`thm-btn ${props.btnClass} active`}>
+                <Link href="https://www.autubackend.com/register/trader" className={`thm-btn ${props.btnClass} active`}>
                   <span><FormattedMessage id="head.menu.newAccount" /></span>
                 </Link>
-                <Link href="https://backend.autu.finance/login" className={`thm-btn ${props.btnClass}`}>
+                <Link href="https://www.autubackend.com/login" className={`thm-btn ${props.btnClass}`}>
                   <span><FormattedMessage id="head.menu.signIn" /></span>
                 </Link>
               </>
