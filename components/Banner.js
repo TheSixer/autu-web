@@ -31,7 +31,7 @@ const AppScreen = () => {
         </p>
         <p className="flex flex-col items-center text text-center break-normal font-semibold other-title left-8 top-3/4 md:left-1/2 text-xl sm:text-2xl wow fadeIn">
           <FormattedMessage id="home.first.banner.otherTxt" />
-          <a href="https://backend.autu.finance/login" className={`m-2 thm-btn main-nav__btn active`}>
+          <a href="https://www.autubackend.com/login" className={`m-2 thm-btn main-nav__btn active`}>
             <span>
               <FormattedMessage id="head.menu.newAccount" />
             </span>
