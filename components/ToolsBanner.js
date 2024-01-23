@@ -32,6 +32,10 @@ const MarketBanner = (props) => {
                 <img src="/assets/images/tools/iphone@2x.png" />
                 <span><FormattedMessage id="tools.banner.ios" /></span>
               </a>
+              <a href="https://getctradermac.com/autu/ctrader-autu-setup.dmg" target="_blank" className="tools-banner-grid-item">
+                <img src="/assets/images/tools/mac@2x.png" />
+                <span><FormattedMessage id="tools.banner.mac" /></span>
+              </a>
             </div>
           </Col>
           <Col md={7} className="d-flex mt-8 md:mt-0">

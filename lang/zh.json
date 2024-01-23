@@ -101,6 +101,7 @@
   "tools.banner.web": "Web平台",
   "tools.banner.android": "Android平台",
   "tools.banner.ios": "IOS平台",
+  "tools.banner.mac": "Mac平台",
   "tools.action.title": "电脑端交易平台",
   "tools.action.subtitle": "Autu的cTrader桌面端程序具备强大的交易及复盘功能",
   "tools.action.txt01": "提供手动交易、算法交易、复制交易、图表功能、技术分析、市场重演等功能，供交易者复盘、分析、回测与优化",
