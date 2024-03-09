@@ -11,7 +11,7 @@ const NavLinks = () => {
   };
 
   const route = useRouter();
-  const { pathname, locale, locales } = useRouter();
+  const { locale, locales } = useRouter();
   const intl = useIntl();
 
   const home = intl.formatMessage({ id: "head.menu.home" });
@@ -23,13 +23,13 @@ const NavLinks = () => {
   const ai = intl.formatMessage({ id: "head.menu.ai" });
   
   const navigate = (locale) => {
-    window.location.href = `${window.location.origin}${locale === 'zh' ? '/zh' : ''}/${pathname}`;
+    window.location.href = `${window.location.origin}${locale === 'zh' ? '/zh' : ''}`;
   };
 
   return (
     <ul className="main-nav__navigation-box">
-      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/home' ? 'active' : ''}`}>
-        <Link prefetch={false} href="/home">
+      <li className={`laptop:px-1.5 mxl:px-4 ${route.pathname === '/' ? 'active' : ''}`}>
+        <Link prefetch={false} href="/">
           {home}
         </Link>
       </li>

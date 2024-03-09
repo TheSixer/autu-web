@@ -98,7 +98,7 @@ const SideMenu = (props) => {
       <Divider />
       <List>
         <ListItem>
-          <ListItemButton onClick={() => router.push('/home')}>
+          <ListItemButton onClick={() => router.push('/')}>
             <ListItemIcon>
               <Home sx={{ color: 'black' }} />
             </ListItemIcon>

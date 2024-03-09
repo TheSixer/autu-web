@@ -102,6 +102,7 @@
   "tools.banner.android": "Android",
   "tools.banner.ios": "IOS",
   "tools.banner.mac": "Mac",
+  "tools.banner.google": "Google",
   "tools.action.title": "Desktop trading station",
   "tools.action.subtitle": "Autu's cTrader desktop application has powerful trading and replay functions.",
   "tools.action.txt01": "Provides functions such as manual trading, algorithmic trading, copy trading, charting, technical analysis, and market replay, which are used by traders for replay, analysis, backtesting, and optimization.",
