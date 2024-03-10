@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      }
+    ]
+  },
   i18n: {
     // The locales you want to support in your app
     locales: ["en", "zh"],
