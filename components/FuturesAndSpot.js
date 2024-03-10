@@ -35,13 +35,13 @@ const FuturesAndSpot = () => {
                 </div>
                 <ul>
                   <li>
-                    <p>美国西得克萨斯原油</p>
+                    <p><FormattedMessage id="market.commodities.wti" /></p>
                   </li>
                   <li>
-                    <p>英国布伦特原油</p>
+                    <p><FormattedMessage id="market.commodities.brent" /></p>
                   </li>
                   <li>
-                    <p>天然气</p>
+                    <p><FormattedMessage id="market.commodities.gas" /></p>
                   </li>
                 </ul>
               </div>
@@ -54,13 +54,13 @@ const FuturesAndSpot = () => {
                 </div>
                 <ul>
                   <li>
-                    <p>黄金</p>
+                    <p><FormattedMessage id="market.commodities.xauusd" /></p>
                   </li>
                   <li>
-                    <p>白银</p>
+                    <p><FormattedMessage id="market.commodities.xagusd" /></p>
                   </li>
                   <li>
-                    <p>铜</p>
+                    <p><FormattedMessage id="market.commodities.uscopper" /></p>
                   </li>
                 </ul>
               </div>
