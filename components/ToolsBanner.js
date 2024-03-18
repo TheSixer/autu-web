@@ -26,7 +26,7 @@ const MarketBanner = (props) => {
                 <img src="/assets/images/tools/website@2x.png" />
                 <span><FormattedMessage id="tools.banner.web" /></span>
               </a>
-              <a href="https://autu-public-bucket.oss-cn-hongkong.aliyuncs.com/apk/com.autu.app.apk" target="_blank" className="tools-banner-grid-item">
+              <a href="https://autup.s3.ap-southeast-1.amazonaws.com/AutucTrader.apk" target="_blank" className="tools-banner-grid-item">
                 <img src="/assets/images/tools/android@2x.png" />
                 <span><FormattedMessage id="tools.banner.android" /></span>
               </a>
