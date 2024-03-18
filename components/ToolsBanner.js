@@ -18,7 +18,7 @@ const MarketBanner = (props) => {
           </Col>
           <Col md={5} className="d-flex">
             <div className="tools-banner-grid wow fadeInLeft">
-              <a href="https://getctrader.com/autu/ctrader-autu-setup.exe" target="_blank" className="tools-banner-grid-item">
+              <a href="https://getctrader.com/autu/ctrader-autu-setup.exe" className="tools-banner-grid-item">
                 <img src="/assets/images/tools/windows@2x.png" />
                 <span><FormattedMessage id="tools.banner.windows" /></span>
               </a>
@@ -26,7 +26,7 @@ const MarketBanner = (props) => {
                 <img src="/assets/images/tools/website@2x.png" />
                 <span><FormattedMessage id="tools.banner.web" /></span>
               </a>
-              <a href="https://autup.s3.ap-southeast-1.amazonaws.com/AutucTrader.apk" target="_blank" className="tools-banner-grid-item">
+              <a href="https://autup.s3.ap-southeast-1.amazonaws.com/AutucTrader.apk" className="tools-banner-grid-item">
                 <img src="/assets/images/tools/android@2x.png" />
                 <span><FormattedMessage id="tools.banner.android" /></span>
               </a>
@@ -34,7 +34,7 @@ const MarketBanner = (props) => {
                 <img src="/assets/images/tools/iphone@2x.png" />
                 <span><FormattedMessage id="tools.banner.ios" /></span>
               </a>
-              <a href="https://getctradermac.com/autu/ctrader-autu-setup.dmg" target="_blank" className="tools-banner-grid-item">
+              <a href="https://getctradermac.com/autu/ctrader-autu-setup.dmg" className="tools-banner-grid-item">
                 <img src="/assets/images/tools/mac@2x.png" />
                 <span><FormattedMessage id="tools.banner.mac" /></span>
               </a>
