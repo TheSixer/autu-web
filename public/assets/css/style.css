@@ -62,6 +62,17 @@ font-family: 'Quicksand', sans-serif;
   background: rgba(0,0,0,0.1);
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+html::-webkit-scrollbar-thumb {
+  display: none;
+}
+html::-webkit-scrollbar-track {
+  display: none;
+  background: rgba(0,0,0,0.1);
+}
+
 pre {
   word-wrap: normal;
   word-break: break-all;

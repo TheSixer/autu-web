@@ -19,3 +19,11 @@
 .enter_view {
   background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 13.94%,#fff 54.73%);
 }
+
+.print_sign:after {
+  -webkit-animation: blink 1s steps(5, start) infinite;
+  animation: blink 1s steps(5, start) infinite;
+  content: "▋";
+  margin-left: 0.25rem;
+  vertical-align: baseline;
+}

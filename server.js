@@ -12,7 +12,7 @@ const devProxy = {
     changeOrigin: true
   },
   '/gpt': {
-    target: 'http://52.62.33.46', // 端口自己配置合适的
+    target: 'http://47.83.21.247', // 端口自己配置合适的
     pathRewrite: {
       '^/gpt': '/autu-api'
     },
