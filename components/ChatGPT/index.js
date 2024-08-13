@@ -228,7 +228,7 @@ const Home = () => {
                   (locale === 'en' ? solutionsEn : solutions).map((solute, index) => (
                     <Grid xs={12} sm={12} md={4} key={'solute_' + index}>
                       <Item variant="outlined" onClick={() => submit(solute)} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', gap: 2, cursor: 'pointer', height: '100%' }} className="hover:border-yellow-300">
-                        <span className='text-base text-gray-900'>{ solute }</span>
+                        <span className='text-sm text-gray-900'>{ solute }</span>
                         <ArrowRightAltIcon />
                       </Item>
                     </Grid>
