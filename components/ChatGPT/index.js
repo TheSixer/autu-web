@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
+import { useRouter } from "next/router";
 import hljs from 'highlight.js';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -16,13 +17,20 @@ import SendIcon from '@mui/icons-material/Send';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
-import QuizIcon from '@mui/icons-material/Quiz';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import DevicesIcon from '@mui/icons-material/Devices';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Steps from 'rc-steps';
+import 'rc-steps/assets/index.css';
 
 import "highlight.js/styles/monokai-sublime.css";
 import chatgptImg from './chatgpt.svg';
@@ -64,6 +72,18 @@ const solutions = [
   '我要用基于ctrader cBot的程序代码实现一个 RSI 超买超卖策略',
 ];
 
+const solutionsEn = [
+  "Help me implement a classic grid strategy based on cTrader cBot program code.",
+  "Help me implement a Martingale strategy based on cTrader cBot program code.",
+  "Implement a trailing sell strategy to sell at a higher point based on cTrader cBot program code.",
+  "Implement a Bollinger Bands strategy using cTrader Automate code.",
+  "Help me implement a range breakout strategy based on cTrader cBot program code.",
+  "Implement an Ichimoku strategy using automated trading program code based on cTrader Automate.",
+  "Implement an entry strategy based on the 123 rule using cTrader cBot program code.",
+  "Implement a momentum strategy to chase gains using cTrader Automate code.",
+  "I need to implement an RSI overbought/oversold strategy based on cTrader cBot program code."
+];
+
 const Home = () => {
   const [questions, setQuestions] = useState([]);
   const [messageList, setMessageList] = useState([]);
@@ -75,6 +95,36 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const [prompt, setPrompt] = useState([]);
   const [text, setText] = useState('');
+
+  const { locale } = useRouter();
+
+  const steps = [
+    {
+      title: locale !== 'en' ? '自定义策略' : 'Custom Strategy',
+      description: locale !== 'en' ? '向 AutuGPT 描述您的策略' : 'Describe your strategy to AutuGPT',
+      status: 'process',
+      icon: <Avatar sx={{ width: 36, height: 36, backgroundImage: 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)' }}>
+        <TerminalIcon fontSize="small" />
+      </Avatar>,
+    },
+    {
+      title: locale !== 'en' ? '在 CTrader 上进行回测' : 'Backtest on cTrader',
+      description: locale !== 'en' ? '在 CTrader 上进行回测并优化参数' : 'Backtest and optimize parameters on cTrader',
+      status: 'process',
+      icon: <Avatar sx={{ width: 36, height: 36, backgroundImage: 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)' }}>
+        <DevicesIcon fontSize="small" />
+      </Avatar>,
+    },
+    {
+      title: locale !== 'en' ? '在 CTrader 上自动化' : 'Automate on cTrader',
+      description: locale !== 'en' ? '使用 CTrader 信号机器人自动执行' : 'Use cTrader Signal Robot for automated execution',
+      status: 'process',
+      icon: <Avatar sx={{ width: 36, height: 36, backgroundImage: 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)', cursor: 'pointer' }}
+        onClick={() => window.open('https://www.autubackend.com/register/trader', '_blank')}>
+        <AutoModeIcon fontSize="small" />
+      </Avatar>,
+    },
+  ];
 
   const scrollToBottom = () => {
     if(chat.current.scrollHeight > chat.current.clientHeight){
@@ -156,58 +206,28 @@ const Home = () => {
 
 	return (
 		<section className="w-screen flex flex-row">
-      <div className={`${styles.sidebar_scrollview} pt-24 h-screen px-4 basis-1/6 border-r border-gray-300 overflow-y-scroll`}>
-        <List>
-          <ListItem>
-            <ListItemText
-              primary={
-                <Typography
-                  sx={{ display: 'block', fontSize: '16px', fontWeight: 600, cursor: 'pointer' }}
-                  component="h1"
-                  variant="body2"
-                  color="#0d0d0d"
-                >
-                  <span>示例：</span>
-                </Typography>
-              }
-            />
-          </ListItem>
-          {
-            solutions.map((solute, index) => (
-              <ListItem
-                key={'list_' + index}
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{ display: 'block', mb: '10px', fontSize: '14px', fontWeight: 400, cursor: 'pointer' }}
-                      component="h1"
-                      variant="body2"
-                      color="#0d0d0d"
-                      onClick={() => submit(solute)}
-                    >
-                      <span className='hover:text-gray-400'>{solute}</span>
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))
-          }
-        </List>
+      <div className={`${styles.sidebar_scrollview} pt-32 h-screen px-4 border-r border-gray-300 overflow-y-scroll`}>
+        <Steps
+          className={styles.custom_step}
+          direction="vertical"
+          current={2}
+          items={steps}
+        />
       </div>
 
-      <article ref={chat} className={'relative main pt-24 w-screen h-screen overflow-y-scroll'}>
+      <article ref={chat} className={'relative main px-4 pt-24 w-screen h-screen overflow-y-scroll'}>
         {
           !questions?.length ? (
             <div className={styles.empty_view}>
-              <div className='mt-56 flex justify-center'>
+              <div className={`${styles.logo} flex justify-center flex-col items-center`}>
                 <Image src={chatgptImg} alt='chatGPT' /> 
+                <h2 className='mt-4 text-5xl font-bold text-gray-800 font-serif'>AutuGPT</h2>
               </div>
-              <Grid container spacing={2}  sx={{ m: '60px auto' }} className="max-w-screen-lg">
+              <Grid container spacing={2}  sx={{ m: '60px auto' }} className="max-w-screen-md">
                 {
-                  solutions.map((solute, index) => (
-                    <Grid xs={4} key={'solute_' + index}>
-                      <Item variant="outlined" onClick={() => submit(solute)} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, cursor: 'pointer' }} className="hover:border-yellow-300">
+                  (locale === 'en' ? solutionsEn : solutions).map((solute, index) => (
+                    <Grid xs={12} sm={12} md={4} key={'solute_' + index}>
+                      <Item variant="outlined" onClick={() => submit(solute)} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', gap: 2, cursor: 'pointer', height: '100%' }} className="hover:border-yellow-300">
                         <span className='text-base text-gray-900'>{ solute }</span>
                         <ArrowRightAltIcon />
                       </Item>
@@ -216,111 +236,112 @@ const Home = () => {
                 }
               </Grid>
             </div>
-          ) : null
+          ) : (
+            <div className={styles.empty_view}>
+              <List sx={{ width: '100%' }}>
+                {
+                  questions.map((question, index) => (
+                    <>
+                      <Divider />
+                      <ListItem key={`me_${index}`}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '100%', maxWidth: 780 }}>
+                          <ListItemAvatar>
+                            <Avatar alt="LO" sx={{ bgcolor: '#9a3412' }} variant="rounded">LO</Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            secondary={
+                              <Fragment>
+                                <Typography
+                                  className={styles.render__html}
+                                  sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
+                                  component="span"
+                                  variant="body2"
+                                  color="text.primary"
+                                >
+                                  <p dangerouslySetInnerHTML={{
+                                    __html: question
+                                  }}></p>
+                                </Typography>
+                              </Fragment>
+                            }
+                          />
+                        </Box>
+                      </ListItem>
+                      {
+                        messageList[index] ? (
+                          <>
+                            <Divider />
+                            <ListItem sx={{ bgcolor: '#f7f7f8' }} key={`chat_${index}`}>
+                              <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '100%', maxWidth: 780 }}>
+                                <ListItemAvatar>
+                                  <Avatar alt="Cindy Baker" src="/assets/images/ai.jpeg" variant="rounded" />
+                                </ListItemAvatar>
+                                <ListItemText
+                                  secondary={
+                                    <Fragment>
+                                      <Typography
+                                        className={styles.render__html}
+                                        sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
+                                        component="span"
+                                        variant="body2"
+                                        color="text.primary"
+                                      >
+                                        <p dangerouslySetInnerHTML={{
+                                          __html: messageList[index].content
+                                        }}></p>
+                                      </Typography>
+                                    </Fragment>
+                                  }
+                                />
+                              </Box>
+                            </ListItem>
+                            {
+                              index === messageList.length - 1 ? <Divider /> : null
+                            }
+                          </>
+                        ) : null
+                      }
+                    </>
+                  ))
+                }
+                {
+                  text ? (
+                    <>
+                      <Divider />
+                      <ListItem sx={{ bgcolor: '#f7f7f8' }} key={`chat_last`}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '100%', maxWidth: 780 }}>
+                          <ListItemAvatar>
+                            <Avatar alt="Cindy Baker" src="/assets/images/ai.jpeg" variant="rounded" />
+                          </ListItemAvatar>
+                          <ListItemText
+                            secondary={
+                              <Fragment>
+                                <Typography
+                                  className={styles.render__html}
+                                  sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
+                                  component="span"
+                                  variant="body2"
+                                  color="text.primary"
+                                >
+                                  <p className={isLoading ? styles.print_sign : ''} dangerouslySetInnerHTML={{
+                                    __html: md.render(text)
+                                  }}></p>
+                                </Typography>
+                              </Fragment>
+                            }
+                          />
+                        </Box>
+                      </ListItem>
+                      <Divider />
+                    </>
+                  ) : null
+                }
+              </List>
+            </div>
+          )
         }
 
-        <div className={styles.empty_view}>
-          <List sx={{ width: '100%' }}>
-            {
-              questions.map((question, index) => (
-                <>
-                  <Divider />
-                  <ListItem key={`me_${index}`}>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '780px' }}>
-                      <ListItemAvatar>
-                        <Avatar alt="LO" sx={{ bgcolor: '#9a3412' }} variant="rounded">LO</Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        secondary={
-                          <Fragment>
-                            <Typography
-                              className={styles.render__html}
-                              sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
-                              component="span"
-                              variant="body2"
-                              color="text.primary"
-                            >
-                              <p dangerouslySetInnerHTML={{
-                                __html: question
-                              }}></p>
-                            </Typography>
-                          </Fragment>
-                        }
-                      />
-                    </Box>
-                  </ListItem>
-                  {
-                    messageList[index] ? (
-                      <>
-                        <Divider />
-                        <ListItem sx={{ bgcolor: '#f7f7f8' }} key={`chat_${index}`}>
-                          <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '780px' }}>
-                            <ListItemAvatar>
-                              <Avatar alt="Cindy Baker" src="/assets/images/ai.jpeg" variant="rounded" />
-                            </ListItemAvatar>
-                            <ListItemText
-                              secondary={
-                                <Fragment>
-                                  <Typography
-                                    className={styles.render__html}
-                                    sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
-                                    component="span"
-                                    variant="body2"
-                                    color="text.primary"
-                                  >
-                                    <p dangerouslySetInnerHTML={{
-                                      __html: messageList[index].content
-                                    }}></p>
-                                  </Typography>
-                                </Fragment>
-                              }
-                            />
-                          </Box>
-                        </ListItem>
-                        {
-                          index === messageList.length - 1 ? <Divider /> : null
-                        }
-                      </>
-                    ) : null
-                  }
-                </>
-              ))
-            }
-            {
-              text ? (
-                <>
-                  <Divider />
-                  <ListItem sx={{ bgcolor: '#f7f7f8' }} key={`chat_last`}>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', py: 2, mx: 'auto', width: '780px' }}>
-                      <ListItemAvatar>
-                        <Avatar alt="Cindy Baker" src="/assets/images/ai.jpeg" variant="rounded" />
-                      </ListItemAvatar>
-                      <ListItemText
-                        secondary={
-                          <Fragment>
-                            <Typography
-                              className={styles.render__html}
-                              sx={{ display: 'inline', fontSize: '1rem', lineHeight: '1.75rem' }}
-                              component="span"
-                              variant="body2"
-                              color="text.primary"
-                            >
-                              <p className={isLoading ? styles.print_sign : ''} dangerouslySetInnerHTML={{
-                                __html: md.render(text)
-                              }}></p>
-                            </Typography>
-                          </Fragment>
-                        }
-                      />
-                    </Box>
-                  </ListItem>
-                  <Divider />
-                </>
-              ) : null
-            }
-          </List>
-        </div>
-        <div className={`${styles.enter_view} sticky flex items-center justify-center w-full h-40 bottom-0 left-0`}>
+        <div className={`${styles.enter_view} sticky flex items-center justify-center w-full h-40 bottom-0 left-0 px-4`}>
           <TextField
             value={value}
             label="请输入..."
@@ -374,6 +395,30 @@ const Home = () => {
           </div>
         </div> */}
       </article>
+
+      <SpeedDial
+        ariaLabel="AutuGPT"
+        className={styles.speed_dial}
+        sx={{ position: 'fixed', top: 100, right: 16 }}
+        direction='down'
+        icon={
+          <Avatar sx={{ width: 36, height: 36, backgroundImage: 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)' }}>
+            <SpeedDialIcon fontSize="small" />
+          </Avatar>
+        }
+      >
+        {steps.map((action, index) => (
+          <SpeedDialAction
+            key={action.title}
+            icon={action.icon}
+            tooltipTitle={action.title}
+            tooltipOpen
+            onClick={() => {
+              index === 2 && window.open('https://www.autubackend.com/register/trader', '_blank')
+            }}
+          />
+        ))}
+      </SpeedDial>
 
       <Dialog
         open={open}

@@ -2,8 +2,16 @@
     margin-bottom: 1.25rem;
 }
 
-.sidebar_scrollview::-webkit-scrollbar {
-  width: 0;
+.sidebar_scrollview {
+  width: 328px;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.logo {
+  margin-top: 320px;
 }
 
 .empty_view {
@@ -26,4 +34,49 @@
   content: "▋";
   margin-left: 0.25rem;
   vertical-align: baseline;
+}
+
+.custom_step :global {
+  .rc-steps-item-tail {
+    left: 16px;
+    padding: 42px 0 4px 0;
+  
+    &::after {
+      width: 2px;
+      background-image: linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%);
+    }
+  }
+  
+  .rc-steps-item-description {
+    padding-bottom: 50px;
+  }
+}
+
+.speed_dial :global {
+  display: none;
+  .MuiButtonBase-root {
+    width: 36px;
+    height: 36px;
+    background: none;
+  }
+
+  .MuiSpeedDialAction-staticTooltipLabel {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar_scrollview, .speed_dial {
+    display: none;
+  }
+  
+  .speed_dial {
+    display: block;
+  }
+
+  .logo {
+    margin-top: 0;
+  }
+
+
 }
