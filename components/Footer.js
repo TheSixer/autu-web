@@ -178,7 +178,15 @@ const Footer = () => {
                       <li>
                         <div className="footer-widget__links-list-item">
                           <p><FormattedMessage id="footer.info.address" /></p>
-                          <p>Law Partners House, Kumul Highway, Port Vila Republic of Vanuatu.</p>
+                          <p></p>
+                          <p></p>
+                          <p>Autu Securities International Inc.</p>
+                          <p></p>
+                          <p><FormattedMessage id="footer.info.vanuatu" />Law Partners House, Kumul Highway, Port Vila Republic of Vanuatu.</p>
+                          <p></p>
+                          <p>AUTU MARKETS PTY LIMITED</p>
+                          <p></p>
+                          <p><FormattedMessage id="footer.info.australia" />Suite 135, 78 Gawler Place, Adelaide, SA 5000, Australia</p>
                         </div>
                       </li>
                       <li>
