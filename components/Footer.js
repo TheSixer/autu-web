@@ -166,13 +166,13 @@ const Footer = () => {
                       <li>
                         <div className="footer-widget__links-list-item">
                           <p><FormattedMessage id="footer.info.website" /></p>
-                          <p>https://www.autu.finance/</p>
+                          <p><a href="https://www.autu.global" target="_blank">https://www.autu.global</a></p>
                         </div>
                       </li>
                       <li>
                         <div className="footer-widget__links-list-item">
                           <p><FormattedMessage id="footer.info.email" /></p>
-                          <p>cs@autu.finance</p>
+                          <p><a href="mailto:business@autu.global" target="_blank">business@autu.global</a></p>
                         </div>
                       </li>
                       <li>
@@ -180,13 +180,7 @@ const Footer = () => {
                           <p><FormattedMessage id="footer.info.address" /></p>
                           <p></p>
                           <p></p>
-                          <p>Autu Securities International Inc.</p>
-                          <p></p>
-                          <p><FormattedMessage id="footer.info.vanuatu" />Law Partners House, Kumul Highway, Port Vila Republic of Vanuatu.</p>
-                          <p></p>
-                          <p>AUTU MARKETS PTY LIMITED</p>
-                          <p></p>
-                          <p><FormattedMessage id="footer.info.australia" />Suite 135, 78 Gawler Place, Adelaide, SA 5000, Australia</p>
+                          <p>Transpacific Building, Level 01, Lini Highway, Port Vila, Republic of Vanuatu.</p>
                         </div>
                       </li>
                       <li>
@@ -194,11 +188,9 @@ const Footer = () => {
                           <p><FormattedMessage id="footer.info.tel" /></p>
                           <p></p>
                           <p></p>
-                          <p><FormattedMessage id="footer.info.hk" /><a href="tel:+852 56413620">+852 56413620</a></p>
+                          <p><FormattedMessage id="footer.info.australia" /><a href="tel:+61 426660218">+61 4 26660218 (UTC+10 9:00am – 6:00pm)</a></p>
                           <p></p>
-                          <p><FormattedMessage id="footer.info.vanuatu" /><a href="tel:+678 7575889">+678 7575889</a></p>
-                          <p></p>
-                          <p><FormattedMessage id="footer.info.australia" /><a href="tel:+61 0426660218">+61 0426660218</a></p>
+                          <p><FormattedMessage id="footer.info.vanuatu" /><a href="tel:+678 29283">+678 29283 (UTC+11 8:00am – 5:00pm)</a></p>
                         </div>
                       </li>
                       {/* <li>
@@ -227,17 +219,21 @@ const Footer = () => {
             </div>
             <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer" /></p>
             <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer.content" /></p>
+            <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer2" /></p>
+            <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer.content2" /></p>
+            <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer3" /></p>
+            <p className="px-4 sm:px-0 wow fadeInDown"><FormattedMessage id="footer.info.disclaimer.content3" /></p>
           </div>
           <div className="container text-center">
             <div className="site-footer__bottom-links">
-              <a href="/conditions"><FormattedMessage id="footer.list.agreement" /></a>
-              <a href="/"><FormattedMessage id="footer.list.risk" /></a>
-              <a href="/"><FormattedMessage id="footer.list.amlAndCtf" /></a>
-              <a href="/privacypolicy"><FormattedMessage id="footer.list.policy.agreement" /></a>
-              <a href="/"><FormattedMessage id="footer.list.interest.conflicts.policy" /></a>
-              <a href="/"><FormattedMessage id="footer.list.execution.policy" /></a>
+              <a href="/conditions" target="_blank"><FormattedMessage id="footer.list.agreement" /></a>
+              <a href="/risk-warning" target="_blank"><FormattedMessage id="footer.list.risk" /></a>
+              <a href="/aml-ctf-policy" target="_blank"><FormattedMessage id="footer.list.amlAndCtf" /></a>
+              <a href="/privacypolicy" target="_blank"><FormattedMessage id="footer.list.policy.agreement" /></a>
+              <a href="/jurisdiction" target="_blank"><FormattedMessage id="footer.list.interest.conflicts.policy" /></a>
+              <a href="/execution-policy" target="_blank"><FormattedMessage id="footer.list.execution.policy" /></a>
             </div>
-            {/* <p className="copyright">粤ICP备2022119610号-1 @ Copyright 2023-版权所有 TradeMax Global Market</p> */}
+            <p className="copyright" style={{margin: 0}}>This website is owned and operated by Autu Securities International Inc. © 2022-2024 AUTU. All Rights Reserved.</p>
           </div>
         </div>
       </footer>
