@@ -1021,7 +1021,7 @@ button {
 }
 
 .tools-banner-content {
-  margin-bottom: 100px;
+  margin-bottom: 46px;
   text-align: center;
 }
 
@@ -1040,7 +1040,7 @@ button {
 }
 
 .tools-banner-grid {
-  margin: auto;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

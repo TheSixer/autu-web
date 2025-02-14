@@ -10,10 +10,12 @@
 
 # next.js
 /out/
+.next 
 
 # production
 /build
 /public/assets/sources/
+
 
 # misc
 .DS_Store

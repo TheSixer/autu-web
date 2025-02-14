@@ -1,107 +1,45 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 748;
-exports.ids = [748];
+exports.id = "pages/api/auth/[...nextauth]";
+exports.ids = ["pages/api/auth/[...nextauth]"];
 exports.modules = {
 
-/***/ 7368:
+/***/ "next-auth":
+/*!****************************!*\
+  !*** external "next-auth" ***!
+  \****************************/
+/***/ ((module) => {
+
+module.exports = require("next-auth");
+
+/***/ }),
+
+/***/ "next-auth/providers/credentials":
+/*!**************************************************!*\
+  !*** external "next-auth/providers/credentials" ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = require("next-auth/providers/credentials");
+
+/***/ }),
+
+/***/ "(api)/./pages/api/auth/[...nextauth].js":
+/*!*****************************************!*\
+  !*** ./pages/api/auth/[...nextauth].js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "authOptions": () => (/* binding */ authOptions),
-  "default": () => (/* binding */ _nextauth_)
-});
-
-;// CONCATENATED MODULE: external "next-auth"
-const external_next_auth_namespaceObject = require("next-auth");
-var external_next_auth_default = /*#__PURE__*/__webpack_require__.n(external_next_auth_namespaceObject);
-;// CONCATENATED MODULE: external "next-auth/providers/credentials"
-const credentials_namespaceObject = require("next-auth/providers/credentials");
-var credentials_default = /*#__PURE__*/__webpack_require__.n(credentials_namespaceObject);
-;// CONCATENATED MODULE: ./pages/api/auth/[...nextauth].js
-
-
-//配置next-auth，参考https://next-auth.js.org/configuration/options
-const authOptions = {
-    // provider配置凭证登录
-    providers: [
-        credentials_default()({
-            name: "login",
-            async authorize (credentials, req) {
-                const { userName , password  } = credentials;
-                const response = await fetch("https://autu.finance/autu-api" + "/login", {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        userName,
-                        password
-                    })
-                });
-                const { code , data  } = await response.json();
-                if (!code) {
-                    return {
-                        name: data.userInfo.userName,
-                        email: data.userInfo.userName,
-                        accessToken: data.token
-                    };
-                }
-                return {
-                    status: "reject",
-                    code
-                };
-            }
-        })
-    ],
-    secret: process.env.NEXTAUTH_SECRET,
-    session: {
-        strategy: "jwt",
-        maxAge: 8 * 60 * 60
-    },
-    jwt: {},
-    pages: {
-        signIn: "/login"
-    },
-    callbacks: {
-        async signIn ({ user , account , profile , email , credentials  }) {
-            //登录回调，如果authorize不成功，重定向到login界面，并附带错误信息参数
-            if (user?.status === "reject") {
-                return `/login/?code=${user?.code}`;
-            }
-            return true;
-        },
-        async redirect ({ url , baseUrl  }) {
-            // // url一般为被中间件拦截之前的目标url，例如：localhost:3000/management/index，baseurl为localhost:3000，如果url不包含baseUrl，大概率是signIn回调函数重定向页面
-            // if (url.startsWith(baseUrl)) return url
-            // else if (url.startsWith("/")) return new URL(url, baseUrl).toString()
-            return "/personal-center";
-        },
-        async session ({ session , token , user  }) {
-            session.user.accessToken = token.accessToken;
-            return session;
-        },
-        async jwt ({ token , user , account , profile  }) {
-            if (account?.type === "credentials" && user) {
-                token.accessToken = user.accessToken;
-            }
-            return token;
-        }
-    },
-    events: {},
-    theme: {
-        colorScheme: "light"
-    },
-    debug: "production" === "development"
-};
-/* harmony default export */ const _nextauth_ = (external_next_auth_default()(authOptions));
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"authOptions\": () => (/* binding */ authOptions),\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next-auth */ \"next-auth\");\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_auth__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next-auth/providers/credentials */ \"next-auth/providers/credentials\");\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_1__);\n\n\n//配置next-auth，参考https://next-auth.js.org/configuration/options\nconst authOptions = {\n    // provider配置凭证登录\n    providers: [\n        next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_1___default()({\n            name: \"login\",\n            async authorize (credentials, req) {\n                const { userName , password  } = credentials;\n                const response = await fetch(\"http://47.83.21.247/autu-api\" + \"/login\", {\n                    method: \"POST\",\n                    headers: {\n                        \"Accept\": \"application/json\",\n                        \"Content-Type\": \"application/json\"\n                    },\n                    body: JSON.stringify({\n                        userName,\n                        password\n                    })\n                });\n                const { code , data  } = await response.json();\n                if (!code) {\n                    return {\n                        name: data.userInfo.userName,\n                        email: data.userInfo.userName,\n                        accessToken: data.token\n                    };\n                }\n                return {\n                    status: \"reject\",\n                    code\n                };\n            }\n        })\n    ],\n    secret: process.env.NEXTAUTH_SECRET,\n    session: {\n        strategy: \"jwt\",\n        maxAge: 8 * 60 * 60\n    },\n    jwt: {},\n    pages: {\n        signIn: \"/login\"\n    },\n    callbacks: {\n        async signIn ({ user , account , profile , email , credentials  }) {\n            //登录回调，如果authorize不成功，重定向到login界面，并附带错误信息参数\n            if (user?.status === \"reject\") {\n                return `/login/?code=${user?.code}`;\n            }\n            return true;\n        },\n        async redirect ({ url , baseUrl  }) {\n            // // url一般为被中间件拦截之前的目标url，例如：localhost:3000/management/index，baseurl为localhost:3000，如果url不包含baseUrl，大概率是signIn回调函数重定向页面\n            // if (url.startsWith(baseUrl)) return url\n            // else if (url.startsWith(\"/\")) return new URL(url, baseUrl).toString()\n            return \"/personal-center\";\n        },\n        async session ({ session , token , user  }) {\n            session.user.accessToken = token.accessToken;\n            return session;\n        },\n        async jwt ({ token , user , account , profile  }) {\n            if (account?.type === \"credentials\" && user) {\n                token.accessToken = user.accessToken;\n            }\n            return token;\n        }\n    },\n    events: {},\n    theme: {\n        colorScheme: \"light\"\n    },\n    debug: \"development\" === \"development\"\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (next_auth__WEBPACK_IMPORTED_MODULE_0___default()(authOptions));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFnQztBQUNpQztBQUVqRSw4REFBOEQ7QUFDdkQsTUFBTUUsY0FBYztJQUN6QixpQkFBaUI7SUFDakJDLFdBQVc7UUFDVEYsc0VBQW1CQSxDQUFDO1lBQ2xCRyxNQUFNO1lBQ04sTUFBTUMsV0FBVUMsV0FBVyxFQUFFQyxHQUFHLEVBQUU7Z0JBQ2hDLE1BQU0sRUFBRUMsU0FBUSxFQUFFQyxTQUFRLEVBQUUsR0FBR0g7Z0JBQy9CLE1BQU1JLFdBQVcsTUFBTUMsTUFBTUMsOEJBQWtDLEdBQUcsVUFBVTtvQkFDMUVHLFFBQVE7b0JBQ1JDLFNBQVM7d0JBQ1AsVUFBVTt3QkFDVixnQkFBZ0I7b0JBQ2xCO29CQUNBQyxNQUFNQyxLQUFLQyxTQUFTLENBQUM7d0JBQUVYO3dCQUFVQztvQkFBUztnQkFDNUM7Z0JBQ0EsTUFBTSxFQUFFVyxLQUFJLEVBQUVDLEtBQUksRUFBRSxHQUFHLE1BQU1YLFNBQVNZLElBQUk7Z0JBQzFDLElBQUksQ0FBQ0YsTUFBTTtvQkFDVCxPQUFPO3dCQUNMaEIsTUFBTWlCLEtBQUtFLFFBQVEsQ0FBQ2YsUUFBUTt3QkFDNUJnQixPQUFPSCxLQUFLRSxRQUFRLENBQUNmLFFBQVE7d0JBQzdCaUIsYUFBYUosS0FBS0ssS0FBSztvQkFDekI7Z0JBQ0YsQ0FBQztnQkFDRCxPQUFPO29CQUFFQyxRQUFRO29CQUFVUDtnQkFBSztZQUNsQztRQUNGO0tBQ0Q7SUFDRFEsUUFBUWhCLFFBQVFDLEdBQUcsQ0FBQ2dCLGVBQWU7SUFDbkNDLFNBQVM7UUFDUEMsVUFBVTtRQUNWQyxRQUFRLElBQUksS0FBSztJQUNuQjtJQUNBQyxLQUFLLENBQUM7SUFDTkMsT0FBTztRQUNMQyxRQUFRO0lBQ1Y7SUFDQUMsV0FBVztRQUNULE1BQU1ELFFBQU8sRUFBRUUsS0FBSSxFQUFFQyxRQUFPLEVBQUVDLFFBQU8sRUFBRWYsTUFBSyxFQUFFbEIsWUFBVyxFQUFFLEVBQUU7WUFDM0QsMkNBQTJDO1lBQzNDLElBQUkrQixNQUFNVixXQUFXLFVBQVU7Z0JBQzdCLE9BQU8sQ0FBQyxhQUFhLEVBQUVVLE1BQU1qQixLQUFLLENBQUM7WUFDckMsQ0FBQztZQUNELE9BQU8sSUFBSTtRQUNiO1FBQ0EsTUFBTW9CLFVBQVMsRUFBRUMsSUFBRyxFQUFFQyxRQUFPLEVBQUUsRUFBRTtZQUMvQix3SEFBd0g7WUFDeEgsMENBQTBDO1lBQzFDLHdFQUF3RTtZQUN4RSxPQUFPO1FBQ1Q7UUFDQSxNQUFNWixTQUFRLEVBQUVBLFFBQU8sRUFBRUosTUFBSyxFQUFFVyxLQUFJLEVBQUUsRUFBRTtZQUN0Q1AsUUFBUU8sSUFBSSxDQUFDWixXQUFXLEdBQUdDLE1BQU1ELFdBQVc7WUFDNUMsT0FBT0s7UUFDVDtRQUNBLE1BQU1HLEtBQUksRUFBQ1AsTUFBSyxFQUFFVyxLQUFJLEVBQUVDLFFBQU8sRUFBRUMsUUFBTyxFQUFDLEVBQUU7WUFDekMsSUFBSUQsU0FBU0ssU0FBUyxpQkFBaUJOLE1BQU07Z0JBQzNDWCxNQUFNRCxXQUFXLEdBQUdZLEtBQUtaLFdBQVc7WUFDdEMsQ0FBQztZQUNELE9BQU9DO1FBQ1Q7SUFDRjtJQUNBa0IsUUFBUSxDQUFDO0lBQ1RDLE9BQU87UUFBRUMsYUFBYTtJQUFRO0lBQzlCQyxPQUFPbkMsa0JBQXlCO0FBQ2xDLEVBQUM7QUFFRCxpRUFBZVosZ0RBQVFBLENBQUNFLFlBQVlBLEVBQUEiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9hdXR1LXdlYnNpdGUvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzPzUyN2YiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IE5leHRBdXRoIGZyb20gXCJuZXh0LWF1dGhcIlxuaW1wb3J0IENyZWRlbnRpYWxzUHJvdmlkZXIgZnJvbSAnbmV4dC1hdXRoL3Byb3ZpZGVycy9jcmVkZW50aWFscydcblxuLy/phY3nva5uZXh0LWF1dGjvvIzlj4LogINodHRwczovL25leHQtYXV0aC5qcy5vcmcvY29uZmlndXJhdGlvbi9vcHRpb25zXG5leHBvcnQgY29uc3QgYXV0aE9wdGlvbnMgPSB7XG4gIC8vIHByb3ZpZGVy6YWN572u5Yet6K+B55m75b2VXG4gIHByb3ZpZGVyczogW1xuICAgIENyZWRlbnRpYWxzUHJvdmlkZXIoe1xuICAgICAgbmFtZTogJ2xvZ2luJyxcbiAgICAgIGFzeW5jIGF1dGhvcml6ZShjcmVkZW50aWFscywgcmVxKSB7Ly/lhbfkvZPmjojmnYPpgLvovpFcbiAgICAgICAgY29uc3QgeyB1c2VyTmFtZSwgcGFzc3dvcmQgfSA9IGNyZWRlbnRpYWxzO1xuICAgICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX09SSUdJTl9VUkwgKyAnL2xvZ2luJywge1xuICAgICAgICAgIG1ldGhvZDogJ1BPU1QnLFxuICAgICAgICAgIGhlYWRlcnM6IHsgXG4gICAgICAgICAgICAnQWNjZXB0JzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICAgICAgICAgICAgJ0NvbnRlbnQtVHlwZSc6ICdhcHBsaWNhdGlvbi9qc29uJyxcbiAgICAgICAgICB9LFxuICAgICAgICAgIGJvZHk6IEpTT04uc3RyaW5naWZ5KHsgdXNlck5hbWUsIHBhc3N3b3JkIH0pXG4gICAgICAgIH0pO1xuICAgICAgICBjb25zdCB7IGNvZGUsIGRhdGEgfSA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKTtcbiAgICAgICAgaWYgKCFjb2RlKSB7XG4gICAgICAgICAgcmV0dXJuIHtcbiAgICAgICAgICAgIG5hbWU6IGRhdGEudXNlckluZm8udXNlck5hbWUsXG4gICAgICAgICAgICBlbWFpbDogZGF0YS51c2VySW5mby51c2VyTmFtZSxcbiAgICAgICAgICAgIGFjY2Vzc1Rva2VuOiBkYXRhLnRva2VuLFxuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgICByZXR1cm4geyBzdGF0dXM6ICdyZWplY3QnLCBjb2RlIH1cbiAgICAgIH1cbiAgICB9KVxuICBdLFxuICBzZWNyZXQ6IHByb2Nlc3MuZW52Lk5FWFRBVVRIX1NFQ1JFVCxcbiAgc2Vzc2lvbjoge1xuICAgIHN0cmF0ZWd5OiBcImp3dFwiLFxuICAgIG1heEFnZTogOCAqIDYwICogNjAsXG4gIH0sXG4gIGp3dDoge30sXG4gIHBhZ2VzOiB7Ly/oh6rlrprkuYnnlYzpnaIg77yM5Y+v6YWN572uc2lnbklu77yMc2lnbk91dO+8jGVycm9y77yMdmVyaWZ5UmVxdWVzdO+8jG5ld1VzZXJcbiAgICBzaWduSW46ICcvbG9naW4nLFxuICB9LFxuICBjYWxsYmFja3M6IHsvL+Wbnuiwg+WHveaVsFxuICAgIGFzeW5jIHNpZ25Jbih7IHVzZXIsIGFjY291bnQsIHByb2ZpbGUsIGVtYWlsLCBjcmVkZW50aWFscyB9KSB7XG4gICAgICAvL+eZu+W9leWbnuiwg++8jOWmguaenGF1dGhvcml6ZeS4jeaIkOWKn++8jOmHjeWumuWQkeWIsGxvZ2lu55WM6Z2i77yM5bm26ZmE5bim6ZSZ6K+v5L+h5oGv5Y+C5pWwXG4gICAgICBpZiAodXNlcj8uc3RhdHVzID09PSAncmVqZWN0Jykge1xuICAgICAgICByZXR1cm4gYC9sb2dpbi8/Y29kZT0ke3VzZXI/LmNvZGV9YFxuICAgICAgfVxuICAgICAgcmV0dXJuIHRydWVcbiAgICB9LFxuICAgIGFzeW5jIHJlZGlyZWN0KHsgdXJsLCBiYXNlVXJsIH0pIHsvL+S4jeiuvue9ruWbnuiwg++8jOebtOaOpem7mOiupOS9v+eUqHVybFxuICAgICAgLy8gLy8gdXJs5LiA6Iis5Li66KKr5Lit6Ze05Lu25oum5oiq5LmL5YmN55qE55uu5qCHdXJs77yM5L6L5aaC77yabG9jYWxob3N0OjMwMDAvbWFuYWdlbWVudC9pbmRleO+8jGJhc2V1cmzkuLpsb2NhbGhvc3Q6MzAwMO+8jOWmguaenHVybOS4jeWMheWQq2Jhc2VVcmzvvIzlpKfmpoLnjofmmK9zaWduSW7lm57osIPlh73mlbDph43lrprlkJHpobXpnaJcbiAgICAgIC8vIGlmICh1cmwuc3RhcnRzV2l0aChiYXNlVXJsKSkgcmV0dXJuIHVybFxuICAgICAgLy8gZWxzZSBpZiAodXJsLnN0YXJ0c1dpdGgoXCIvXCIpKSByZXR1cm4gbmV3IFVSTCh1cmwsIGJhc2VVcmwpLnRvU3RyaW5nKClcbiAgICAgIHJldHVybiAnL3BlcnNvbmFsLWNlbnRlcidcbiAgICB9LFxuICAgIGFzeW5jIHNlc3Npb24oeyBzZXNzaW9uLCB0b2tlbiwgdXNlciB9KSB7XG4gICAgICBzZXNzaW9uLnVzZXIuYWNjZXNzVG9rZW4gPSB0b2tlbi5hY2Nlc3NUb2tlblxuICAgICAgcmV0dXJuIHNlc3Npb25cbiAgICB9LFxuICAgIGFzeW5jIGp3dCh7dG9rZW4sIHVzZXIsIGFjY291bnQsIHByb2ZpbGV9KSB7XG4gICAgICBpZiAoYWNjb3VudD8udHlwZSA9PT0gJ2NyZWRlbnRpYWxzJyAmJiB1c2VyKSB7XG4gICAgICAgIHRva2VuLmFjY2Vzc1Rva2VuID0gdXNlci5hY2Nlc3NUb2tlblxuICAgICAgfVxuICAgICAgcmV0dXJuIHRva2VuXG4gICAgfVxuICB9LFxuICBldmVudHM6IHt9LFxuICB0aGVtZTogeyBjb2xvclNjaGVtZTogXCJsaWdodFwiIH0sXG4gIGRlYnVnOiBwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gJ2RldmVsb3BtZW50Jyxcbn1cblxuZXhwb3J0IGRlZmF1bHQgTmV4dEF1dGgoYXV0aE9wdGlvbnMpXG4iXSwibmFtZXMiOlsiTmV4dEF1dGgiLCJDcmVkZW50aWFsc1Byb3ZpZGVyIiwiYXV0aE9wdGlvbnMiLCJwcm92aWRlcnMiLCJuYW1lIiwiYXV0aG9yaXplIiwiY3JlZGVudGlhbHMiLCJyZXEiLCJ1c2VyTmFtZSIsInBhc3N3b3JkIiwicmVzcG9uc2UiLCJmZXRjaCIsInByb2Nlc3MiLCJlbnYiLCJORVhUX1BVQkxJQ19PUklHSU5fVVJMIiwibWV0aG9kIiwiaGVhZGVycyIsImJvZHkiLCJKU09OIiwic3RyaW5naWZ5IiwiY29kZSIsImRhdGEiLCJqc29uIiwidXNlckluZm8iLCJlbWFpbCIsImFjY2Vzc1Rva2VuIiwidG9rZW4iLCJzdGF0dXMiLCJzZWNyZXQiLCJORVhUQVVUSF9TRUNSRVQiLCJzZXNzaW9uIiwic3RyYXRlZ3kiLCJtYXhBZ2UiLCJqd3QiLCJwYWdlcyIsInNpZ25JbiIsImNhbGxiYWNrcyIsInVzZXIiLCJhY2NvdW50IiwicHJvZmlsZSIsInJlZGlyZWN0IiwidXJsIiwiYmFzZVVybCIsInR5cGUiLCJldmVudHMiLCJ0aGVtZSIsImNvbG9yU2NoZW1lIiwiZGVidWciXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./pages/api/auth/[...nextauth].js\n");
 
 /***/ })
 
@@ -112,7 +50,7 @@ const authOptions = {
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(7368));
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/auth/[...nextauth].js"));
 module.exports = __webpack_exports__;
 
 })();
