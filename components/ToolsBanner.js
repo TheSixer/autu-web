@@ -132,6 +132,25 @@ const MarketBanner = () => {
                   </span>
                 </a>
                 <a
+                  href="https://web.metatrader.app/terminal"
+                  target="_blank"
+                  className="tools-banner-grid-item"
+                >
+                  <img src="/assets/images/tools/website@2x.png" />
+                  <span>
+                    <FormattedMessage id="tools.banner.web" />
+                  </span>
+                </a>
+                <a
+                  href="https://autup.s3.ap-southeast-1.amazonaws.com/metatrader5.apk"
+                  className="tools-banner-grid-item"
+                >
+                  <img src="/assets/images/tools/android@2x.png" />
+                  <span>
+                    <FormattedMessage id="tools.banner.android" />
+                  </span>
+                </a>
+                <a
                   href="https://download.mql5.com/cdn/mobile/mt5/ios?server=AutuSecurities-Trade"
                   target="_blank"
                   className="tools-banner-grid-item"
@@ -139,6 +158,15 @@ const MarketBanner = () => {
                   <img src="/assets/images/tools/iphone@2x.png" />
                   <span>
                     <FormattedMessage id="tools.banner.ios" />
+                  </span>
+                </a>
+                <a
+                  href="https://download.metatrader.com/cdn/web/metaquotes.ltd/mt5/MetaTrader5.pkg.zip?utm_source=www.metatrader5.com&utm_campaign=download.mt5.macos"
+                  className="tools-banner-grid-item"
+                >
+                  <img src="/assets/images/tools/mac@2x.png" />
+                  <span>
+                    <FormattedMessage id="tools.banner.mac" />
                   </span>
                 </a>
                 <a
