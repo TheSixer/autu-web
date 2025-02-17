@@ -55,138 +55,149 @@ const MarketBanner = () => {
               </Tabs>
             </div>
           </Col>
-          <Col md={5} className="d-flex">
-            {value === "one" ? (
-              <div className="tools-banner-grid wow fadeInLeft">
-                <a
-                  href="https://getctrader.com/autu/ctrader-autu-setup.exe"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/windows@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.windows" />
-                  </span>
-                </a>
-                <a
-                  href="https://app.autu.finance"
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/website@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.web" />
-                  </span>
-                </a>
-                <a
-                  href="https://autup.s3.ap-southeast-1.amazonaws.com/AutucTrader.apk"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/android@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.android" />
-                  </span>
-                </a>
-                <a
-                  href={
-                    locale === "en"
-                      ? "https://apps.apple.com/cy/app/ctrader/id767428811"
-                      : "https://apps.apple.com/cn/app/ctrader-cn/id6447500914"
-                  }
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/iphone@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.ios" />
-                  </span>
-                </a>
-                <a
-                  href="https://getctradermac.com/autu/ctrader-autu-setup.dmg"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/mac@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.mac" />
-                  </span>
-                </a>
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.autu.app"
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/google@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.google" />
-                  </span>
-                </a>
-              </div>
-            ) : (
-              <div className="tools-banner-grid wow fadeInLeft">
-                <a
-                  href="https://download.mql5.com/cdn/web/autu.securities.international/mt5/autusecurities5setup.exe"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/windows@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.windows" />
-                  </span>
-                </a>
-                <a
-                  href="https://web.metatrader.app/terminal"
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/website@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.web" />
-                  </span>
-                </a>
-                <a
-                  href="https://autup.s3.ap-southeast-1.amazonaws.com/metatrader5.apk"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/android@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.android" />
-                  </span>
-                </a>
-                <a
-                  href="https://download.mql5.com/cdn/mobile/mt5/ios?server=AutuSecurities-Trade"
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/iphone@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.ios" />
-                  </span>
-                </a>
-                <a
-                  href="https://download.metatrader.com/cdn/web/metaquotes.ltd/mt5/MetaTrader5.pkg.zip?utm_source=www.metatrader5.com&utm_campaign=download.mt5.macos"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/mac@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.mac" />
-                  </span>
-                </a>
-                <a
-                  href="https://download.mql5.com/cdn/mobile/mt5/android?server=AutuSecurities-Trade"
-                  target="_blank"
-                  className="tools-banner-grid-item"
-                >
-                  <img src="/assets/images/tools/google@2x.png" />
-                  <span>
-                    <FormattedMessage id="tools.banner.google" />
-                  </span>
-                </a>
-              </div>
-            )}
-          </Col>
-          <Col md={7} className="d-flex mt-8 md:mt-0">
-            <div className="tools-banner-image wow fadeInRight">
-              <img src="/assets/images/tools/versions@2x.png" />
-            </div>
-          </Col>
+          {value === "one" ? (
+            <>
+              <Col md={5} className="d-flex">
+                <div className="tools-banner-grid wow fadeInLeft">
+                  <a
+                    href="https://getctrader.com/autu/ctrader-autu-setup.exe"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/windows@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.windows" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://app.autu.finance"
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/website@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.web" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://autup.s3.ap-southeast-1.amazonaws.com/AutucTrader.apk"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/android@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.android" />
+                    </span>
+                  </a>
+                  <a
+                    href={
+                      locale === "en"
+                        ? "https://apps.apple.com/cy/app/ctrader/id767428811"
+                        : "https://apps.apple.com/cn/app/ctrader-cn/id6447500914"
+                    }
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/iphone@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.ios" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://getctradermac.com/autu/ctrader-autu-setup.dmg"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/mac@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.mac" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.autu.app"
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/google@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.google" />
+                    </span>
+                  </a>
+                </div>
+              </Col>
+              <Col md={7} className="d-flex mt-8 md:mt-0">
+                <div className="tools-banner-image wow fadeInRight">
+                  <img src="/assets/images/tools/versions@2x.png" />
+                </div>
+              </Col>
+            </>
+          ) : (
+            <>
+              <Col md={7} className="d-flex mt-8 md:mt-0">
+                <div className="tools-banner-image wow fadeInRight">
+                  <img src="/assets/images/tools/mt5-versions@2x.png" />
+                </div>
+              </Col>
+              <Col md={5} className="d-flex">
+                <div className="tools-banner-grid wow fadeInLeft">
+                  <a
+                    href="https://download.mql5.com/cdn/web/autu.securities.international/mt5/autusecurities5setup.exe"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/windows@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.windows" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://web.metatrader.app/terminal"
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/website@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.web" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://autup.s3.ap-southeast-1.amazonaws.com/metatrader5.apk"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/android@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.android" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://download.mql5.com/cdn/mobile/mt5/ios?server=AutuSecurities-Trade"
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/iphone@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.ios" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://download.metatrader.com/cdn/web/metaquotes.ltd/mt5/MetaTrader5.pkg.zip?utm_source=www.metatrader5.com&utm_campaign=download.mt5.macos"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/mac@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.mac" />
+                    </span>
+                  </a>
+                  <a
+                    href="https://download.mql5.com/cdn/mobile/mt5/android?server=AutuSecurities-Trade"
+                    target="_blank"
+                    className="tools-banner-grid-item"
+                  >
+                    <img src="/assets/images/tools/google@2x.png" />
+                    <span>
+                      <FormattedMessage id="tools.banner.google" />
+                    </span>
+                  </a>
+                </div>
+              </Col>
+            </>
+          )}
         </Row>
       </Container>
     </section>
